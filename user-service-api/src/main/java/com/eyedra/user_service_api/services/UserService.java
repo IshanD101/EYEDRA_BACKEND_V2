@@ -15,7 +15,7 @@ import java.util.Set;
 @Setter
 public class UserService {
 
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
 
     public User getUserByUsername(String username) {
         return userRepository.findByUserName(username).orElseThrow(() -> new RuntimeException("User not found"));
