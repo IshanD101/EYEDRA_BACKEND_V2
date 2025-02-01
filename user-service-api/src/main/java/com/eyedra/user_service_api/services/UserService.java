@@ -18,7 +18,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public User getUserByUsername(String username) {
-        return userRepository.findByUserName(username).orElseThrow(() -> new RuntimeException("User not found"));
+        return userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     public void upgradeToListener(String username) {

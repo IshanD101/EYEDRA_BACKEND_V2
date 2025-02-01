@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
+@Builder
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
@@ -25,7 +25,7 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column(nullable = false, unique = true)
-    private String userName;
+    private String username;
 
     private String email;
     private String password;
@@ -51,12 +51,24 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     @Override
     public String getPassword() {
         return password;  // Return the password field here
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
