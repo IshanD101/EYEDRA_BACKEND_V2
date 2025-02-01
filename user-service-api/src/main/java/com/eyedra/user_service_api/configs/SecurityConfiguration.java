@@ -20,7 +20,7 @@ public class SecurityConfiguration  {
 
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
-        return username -> userRepository.findByUserName(username).orElseThrow(()->new RuntimeException("No user found"));
+        return username -> userRepository.findByUsername(username).orElseThrow(()->new RuntimeException("No user found"));
     }
 
     @Bean
