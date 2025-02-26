@@ -1,28 +1,27 @@
 package com.eyedra.user_service_api.controller;
 
 import com.eyedra.user_service_api.entity.User;
-import com.eyedra.user_service_api.services.UserService;
-import lombok.RequiredArgsConstructor;
+import com.eyedra.user_service_api.services.AuthService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController("/api/v1/user")
 @CrossOrigin
 public class UserController {
 
-    private final UserService userService;
+    private final AuthService authService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(AuthService authService) {
+        this.authService = authService;
     }
 
     @GetMapping("/{username}")
     public User getUser(@PathVariable String username) {
-        return userService.getUserByUsername(username);
+        return authService.getUserByUsername(username);
     }
 
     @PostMapping("/convert/{username}")
     public String convertToListener(@PathVariable String username) {
-        userService.upgradeToListener(username);
+        authService.upgradeToListener(username);
         return "User " + username + " upgraded to a listener";
     }
 }

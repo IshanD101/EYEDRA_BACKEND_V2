@@ -40,10 +40,10 @@ public class SecurityConfiguration  {
     public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/login", "/register").permitAll()
-                .requestMatchers("/listener/**").hasRole("LISTENER")
-                .requestMatchers("/user/**").hasAnyRole("USER", "LISTENER")
+                        .requestMatchers("/listener/**").hasRole("LISTENER")
+                        .requestMatchers("/user/**").hasAnyRole("USER", "LISTENER")
                         .anyRequest().authenticated()
-        )
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

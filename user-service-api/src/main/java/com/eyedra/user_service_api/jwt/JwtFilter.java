@@ -1,6 +1,6 @@
 package com.eyedra.user_service_api.jwt;
 
-import com.eyedra.user_service_api.services.UserService;
+import com.eyedra.user_service_api.services.AuthService;
 import com.eyedra.user_service_api.services.impl.UserDetailsCustom;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -24,7 +23,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private JwtUtils jwtUtils;
 
     @Autowired
-    private UserService userService;
+    private AuthService authService;
 
     @Autowired
     private UserDetailsCustom custom;
