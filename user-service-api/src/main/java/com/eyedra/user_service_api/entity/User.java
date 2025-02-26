@@ -21,6 +21,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
+
     private String firstName;
     private String lastName;
 
@@ -31,63 +32,14 @@ public class User implements UserDetails {
     private String password;
     private String mobileNumber;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
-
-
+    @Column(nullable = false)
+    private Role role;  // Store a single role as a column in the User table
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(role -> (GrantedAuthority) role::name) // Convert to SimpleGrantedAuthority
-                .collect(Collectors.toSet());
+        return Set.of((GrantedAuthority) role::name); // Convert role to authority
     }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;  // Return the password field here
-    }
-
-//    public void setUsername(String username) {
-//        this.username = username;
-//    }
-//
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
-//
-//    public void setFirstName(String firstName) {
-//        this.firstName = firstName;
-//    }
-//
-//    public void setLastName(String lastName) {
-//        this.lastName = lastName;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
-//
-//    public void setMobileNumber(String mobileNumber) {
-//        this.mobileNumber = mobileNumber;
-//    }
-//
-//    public void setRoles(Set<Role> roles) {
-//        this.roles = roles;
-//    }
-
-//    public Set<Role> getRoles() {
-//        return roles;
-//    }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -109,3 +61,4 @@ public class User implements UserDetails {
         return true;
     }
 }
+

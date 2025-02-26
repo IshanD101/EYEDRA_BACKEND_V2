@@ -4,7 +4,8 @@ import com.eyedra.user_service_api.entity.User;
 import com.eyedra.user_service_api.services.AuthService;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/api/v1/user")
+@RestController
+@RequestMapping("/api/v1/user")
 @CrossOrigin
 public class UserController {
 

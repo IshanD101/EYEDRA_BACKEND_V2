@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/auth")
-@CrossOrigin
+@RequestMapping(value = "/api/v1/auth",
+        produces = "application/json",
+        consumes = "application/json")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final AuthService authService;
@@ -26,10 +28,9 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody AuthReqDto authReq) {
-        authService.registerUser(authReq);
-        return ResponseEntity.ok("User registered!!!");
+    public ResponseEntity<AuthResponseDto> register(@RequestBody AuthReqDto authReq) {
+        AuthResponseDto responseDto = authService.registerUser(authReq);
+        return ResponseEntity.ok(responseDto);
     }
 }

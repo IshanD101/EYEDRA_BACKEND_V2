@@ -28,13 +28,18 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsCustom custom;
 
-//    @Autowired
-//    private UserDetailsService userDetailsService;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+
+        final String requestPath = request.getServletPath();
+
+        // Skip filter for authentication endpoints
+        if (requestPath.contains("/api/v1/auth/login") || requestPath.contains("/api/v1/auth/register")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         String authHeader = request.getHeader("Authorization");
         String jwt = null;
@@ -47,18 +52,20 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = custom.loadUserByUsername(username);
+
             if (jwtUtils.validateToken(jwt, username)) {
                 UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities()
+                        );
+
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
 
         filterChain.doFilter(request, response);
-
-
-
-
     }
 }
