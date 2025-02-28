@@ -8,12 +8,9 @@ import lombok.*;
 public class AuthReqDto {
     private String username;
     private String password;
+    private String email;
+    private String firstName;
+    private String lastName;
+    private String mobileNumber;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 }
