@@ -40,7 +40,7 @@ public class AuthService {
             throw new RuntimeException("Username already exists");
         }
 
-        // Create and save user
+        // Create and save user user
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
