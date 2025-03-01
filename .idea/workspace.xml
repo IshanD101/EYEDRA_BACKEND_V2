@@ -4,35 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="689dc066-b943-4e98-a223-d0776f629989" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/user-service-api/src/main/java/com/eyedra/user_service_api/configs/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service-api/src/main/java/com/eyedra/user_service_api/configs/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service-api/src/main/java/com/eyedra/user_service_api/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service-api/src/main/java/com/eyedra/user_service_api/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service-api/src/main/java/com/eyedra/user_service_api/jwt/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service-api/src/main/java/com/eyedra/user_service_api/jwt/JwtFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service-api/src/main/java/com/eyedra/user_service_api/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service-api/src/main/java/com/eyedra/user_service_api/services/UserService.java" afterDir="false" />
-    </list>
+    <list default="true" id="689dc066-b943-4e98-a223-d0776f629989" name="Changes" comment="community service added" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="user-service" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "IshanD101"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;IshanD101&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/IshanD101/EYEDRA_BACKEND_V2.git",
-    "accountId": "524b1c94-0c7b-4db6-b79c-0002d3885e7f"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/IshanD101/EYEDRA_BACKEND_V2.git&quot;,
+    &quot;accountId&quot;: &quot;524b1c94-0c7b-4db6-b79c-0002d3885e7f&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2tTTWBShdXpxlkqFV9H5F6RD2lf" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -42,7 +42,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "user-service",
+    "git-widget-placeholder": "group-service",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -89,9 +89,22 @@
       <updated>1740375095361</updated>
       <workItem from="1740375097221" duration="421000" />
     </task>
+    <task id="LOCAL-00001" summary="community service added">
+      <option name="closed" value="true" />
+      <created>1740840600123</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1740840600123</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="community service added" />
+    <option name="LAST_COMMIT_MESSAGE" value="community service added" />
   </component>
 </project>
