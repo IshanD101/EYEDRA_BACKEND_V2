@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@Document
+@Document(collection = "group_community")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,8 +19,7 @@ import java.util.Set;
 public class CommunitySpace {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long communityId;
 
     private String title;
     private String description;
@@ -29,4 +28,5 @@ public class CommunitySpace {
     @ElementCollection
     private Set<Long> membersId = new HashSet<>();
     private LocalDateTime creationDate;
+    private boolean isActive = true;
 }
