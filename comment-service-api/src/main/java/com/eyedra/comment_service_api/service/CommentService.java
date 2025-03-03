@@ -16,7 +16,8 @@ public class CommentService {
 
     @Transactional
     public Comment createComment(Comment comment) {
-        comment.setCreatedAt(LocalDateTime.now()); // Set creation timestamp
+        comment.setCreatedAt(LocalDateTime.now()); // Set creation timestamp without timezone
+
         return commentRepository.save(comment);
     }
 
@@ -30,7 +31,8 @@ public class CommentService {
     }
 
     public Comment updateComment(String id, Comment comment) {
-        comment.setUpdatedAt(LocalDateTime.now()); // Set update timestamp
+        comment.setUpdatedAt(LocalDateTime.now()); // Set update timestamp without timezone
+
         comment.setId(id);
         return commentRepository.save(comment);
     }
