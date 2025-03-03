@@ -3,10 +3,10 @@ package com.eyedra.comment_service_api.service;
 import com.eyedra.comment_service_api.model.Comment;
 import com.eyedra.comment_service_api.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.time.LocalDateTime; // Import for date and time
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
-
 
 @Service
 public class CommentService {
@@ -16,6 +16,7 @@ public class CommentService {
 
     @Transactional
     public Comment createComment(Comment comment) {
+        comment.setCreatedAt(LocalDateTime.now()); // Set creation timestamp
         return commentRepository.save(comment);
     }
 
@@ -29,6 +30,7 @@ public class CommentService {
     }
 
     public Comment updateComment(String id, Comment comment) {
+        comment.setUpdatedAt(LocalDateTime.now()); // Set update timestamp
         comment.setId(id);
         return commentRepository.save(comment);
     }
@@ -41,5 +43,4 @@ public class CommentService {
     public List<Comment> getCommentsByPostId(String postId) {
         return commentRepository.findByPostId(postId);
     }
-
 }
