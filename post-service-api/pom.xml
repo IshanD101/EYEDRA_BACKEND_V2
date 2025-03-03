@@ -72,7 +72,7 @@
 						<image>
 							<name>your-dockerhub-username/post-service-api</name>
 							<build>
-								<dockerFile>Dockerfile</dockerFile>
+								<dockerFile>post-service-api/Dockerfile</dockerFile>
 							</build>
 						</image>
 					</images>
