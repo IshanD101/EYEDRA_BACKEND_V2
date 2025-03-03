@@ -9,7 +9,9 @@ public class Comment {
     private String id;
     private String text;
     private String userId;
-    private int reactions; // For heart reactions
+    private String postId;
+    private boolean rHeart; // Heart reaction
+
 
     // Getters and Setters
     public String getId() {
@@ -36,11 +38,20 @@ public class Comment {
         this.userId = userId;
     }
 
-    public int getReactions() {
-        return reactions;
+    public String getPostId() {
+        return postId;
     }
 
-    public void setReactions(int reactions) {
-        this.reactions = reactions;
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
+
+    public boolean isRHeart() {
+        return rHeart;
+    }
+
+    public void setRHeart(boolean rHeart) {
+        this.rHeart = rHeart;
+    }
+
 }

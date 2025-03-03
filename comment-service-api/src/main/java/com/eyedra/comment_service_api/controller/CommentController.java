@@ -17,8 +17,13 @@ public class CommentController {
 
     @PostMapping
     public Comment createComment(@RequestBody Comment comment) {
+        if (comment.getPostId() == null || comment.getPostId().isEmpty()) {
+            throw new IllegalArgumentException("Post ID is required");
+        }
+        comment.setRHeart(false); // Default to false for new comments
         return commentService.createComment(comment);
     }
+
 
     @GetMapping
     public List<Comment> getComments() {
@@ -34,12 +39,22 @@ public class CommentController {
 
     @PutMapping("/{id}")
     public Comment updateComment(@PathVariable String id, @RequestBody Comment comment) {
+        if (comment.getPostId() == null || comment.getPostId().isEmpty()) {
+            throw new IllegalArgumentException("Post ID is required");
+        }
         return commentService.updateComment(id, comment);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteComment(@PathVariable String id) {
         commentService.deleteComment(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/post/{postId}")
+    public List<Comment> getCommentsByPostId(@PathVariable String postId) {
+        return commentService.getCommentsByPostId(postId);
+    }
+
 }
