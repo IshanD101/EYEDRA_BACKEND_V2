@@ -3,6 +3,7 @@ package com.eyedra.comment_service_api.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +17,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private final AuthenticationManager authenticationManager;
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
+
 
     private final String secretKey = "your_secret_key"; // Replace with your actual secret key
 
