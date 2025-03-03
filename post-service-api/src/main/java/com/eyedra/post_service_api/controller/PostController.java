@@ -28,6 +28,10 @@ public class PostController {
             return ResponseEntity.badRequest().build();
         }
 
+        if (imageFile != null && !isValidImageFile(imageFile)) {
+            return ResponseEntity.badRequest().body(null); // Invalid image file
+        }
+
         PostDTO postDTO = new PostDTO();
         postDTO.setTitle(title);
         postDTO.setContent(content);
@@ -37,7 +41,6 @@ public class PostController {
         Post createdPost = postService.createPost(postDTO, imageFile);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
     }
-
 
     @GetMapping
     public List<Post> getAllPosts() {
@@ -67,6 +70,10 @@ public class PostController {
             return ResponseEntity.badRequest().build();
         }
 
+        if (imageFile != null && !isValidImageFile(imageFile)) {
+            return ResponseEntity.badRequest().body(null); // Invalid image file
+        }
+
         PostDTO postDTO = new PostDTO();
         postDTO.setTitle(title);
         postDTO.setContent(content);
@@ -81,5 +88,13 @@ public class PostController {
     public ResponseEntity<Void> deletePost(@PathVariable String id) {
         postService.deletePost(id);
         return ResponseEntity.noContent().build();
+    }
+
+    private boolean isValidImageFile(MultipartFile imageFile) {
+        String contentType = imageFile.getContentType();
+        long size = imageFile.getSize();
+
+        return (contentType != null && (contentType.startsWith("image/"))) && size <= 5 * 1024 * 1024; // 5 MB limit
+
     }
 }
