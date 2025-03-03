@@ -1,14 +1,14 @@
-# Use the official OpenJDK image as a base
+# Use OpenJDK 17 as base image
 FROM openjdk:17-jdk-slim
 
-# Set the working directory in the container
+# Set working directory inside the container
 WORKDIR /app
 
-# Copy the Maven build output to the container
+# Copy the JAR file from the target folder (make sure your project builds first)
 COPY target/post-service-api-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the port the app runs on
 EXPOSE 8080
 
-# Command to run the application
+# Run the JAR file
 ENTRYPOINT ["java", "-jar", "app.jar"]
