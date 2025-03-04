@@ -1,14 +1,13 @@
-package com.eyedra.community_service_api;
+package com.eyedra.eureka_server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-
-public class CommunityServiceApiApplication {
+public class EurekaServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CommunityServiceApiApplication.class, args);
+		SpringApplication.run(EurekaServerApplication.class, args);
 	}
 
 }

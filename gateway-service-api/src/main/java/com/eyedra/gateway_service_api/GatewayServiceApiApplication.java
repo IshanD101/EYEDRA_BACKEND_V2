@@ -1,14 +1,13 @@
-package com.eyedra.community_service_api;
+package com.eyedra.gateway_service_api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-
-public class CommunityServiceApiApplication {
+public class GatewayServiceApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CommunityServiceApiApplication.class, args);
+		SpringApplication.run(GatewayServiceApiApplication.class, args);
 	}
 
 }
