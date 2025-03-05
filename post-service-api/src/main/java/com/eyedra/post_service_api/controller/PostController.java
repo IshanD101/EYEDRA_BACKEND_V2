@@ -1,7 +1,9 @@
 package com.eyedra.post_service_api.controller;
 
 import com.eyedra.post_service_api.entity.Post;
-import com.eyedra.post_service_api.dto.PostDTO;
+import com.eyedra.post_service_api.dto.PostRequestDTO;
+import com.eyedra.post_service_api.dto.PostResponseDTO;
+
 import com.eyedra.post_service_api.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,12 +21,12 @@ public class PostController {
     private PostService postService;
 
     @PostMapping
-    public ResponseEntity<Post> createPost(@RequestParam("title") String title,
-                                           @RequestParam("content") String content,
-                                           @RequestParam("author") String author,
-                                           @RequestParam("userId") String userId,
-                                           @RequestParam(value = "image", required = false) MultipartFile imageFile) {
-        if (title == null || title.isEmpty() || content == null || content.isEmpty() || author == null || author.isEmpty() || userId == null || userId.isEmpty()) {
+    public ResponseEntity<PostResponseDTO> createPost(@RequestParam("title") String title,
+                                                     @RequestParam("content") String content,
+                                                     @RequestParam("userId") String userId, // Added userId parameter
+                                                     @RequestParam(value = "image", required = false) MultipartFile imageFile) {
+
+        if (title == null || title.isEmpty() || content == null || content.isEmpty() || userId == null || userId.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -32,13 +34,13 @@ public class PostController {
             return ResponseEntity.badRequest().body(null); // Invalid image file
         }
 
-        PostDTO postDTO = new PostDTO();
-        postDTO.setTitle(title);
-        postDTO.setContent(content);
-        postDTO.setAuthor(author);
-        postDTO.setUserId(userId);
+        PostRequestDTO postRequestDTO = new PostRequestDTO();
+        postRequestDTO.setTitle(title);
+        postRequestDTO.setContent(content);
+        postRequestDTO.setUserId(userId); // Set userId in the DTO
 
-        Post createdPost = postService.createPost(postDTO, imageFile);
+        PostResponseDTO createdPost = postService.createPost(postRequestDTO, imageFile);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
     }
 
@@ -60,13 +62,12 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Post> updatePost(@PathVariable String id,
-                                           @RequestParam(value = "title", required = false) String title,
-                                           @RequestParam(value = "content", required = false) String content,
-                                           @RequestParam("author") String author,
-                                           @RequestParam("userId") String userId,
-                                           @RequestParam(value = "image", required = false) MultipartFile imageFile) {
-        if (author == null || author.isEmpty() || userId == null || userId.isEmpty()) {
+    public ResponseEntity<PostResponseDTO> updatePost(@PathVariable String id,
+                                                     @RequestParam(value = "title", required = false) String title,
+                                                     @RequestParam(value = "content", required = false) String content,
+                                                     @RequestParam(value = "image", required = false) MultipartFile imageFile) {
+
+        if (id == null || id.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -74,13 +75,12 @@ public class PostController {
             return ResponseEntity.badRequest().body(null); // Invalid image file
         }
 
-        PostDTO postDTO = new PostDTO();
-        postDTO.setTitle(title);
-        postDTO.setContent(content);
-        postDTO.setAuthor(author);
-        postDTO.setUserId(userId);
+        PostRequestDTO postRequestDTO = new PostRequestDTO();
+        postRequestDTO.setTitle(title);
+        postRequestDTO.setContent(content);
 
-        Post updatedPost = postService.updatePost(id, postDTO, imageFile);
+        PostResponseDTO updatedPost = postService.updatePost(id, postRequestDTO, imageFile);
+
         return ResponseEntity.ok(updatedPost);
     }
 
@@ -95,6 +95,5 @@ public class PostController {
         long size = imageFile.getSize();
 
         return (contentType != null && (contentType.startsWith("image/"))) && size <= 5 * 1024 * 1024; // 5 MB limit
-
     }
 }

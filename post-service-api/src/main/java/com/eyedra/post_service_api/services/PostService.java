@@ -1,7 +1,9 @@
 package com.eyedra.post_service_api.services;
 
 import com.eyedra.post_service_api.entity.Post;
-import com.eyedra.post_service_api.dto.PostDTO;
+import com.eyedra.post_service_api.dto.PostRequestDTO;
+import com.eyedra.post_service_api.dto.PostResponseDTO;
+
 import com.eyedra.post_service_api.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,21 +31,23 @@ public class PostService {
     @Autowired
     private Cloudinary cloudinary; 
 
+public PostResponseDTO createPost(PostRequestDTO postRequestDTO, MultipartFile imageFile) {
+    String userId = postRequestDTO.getUserId(); // Extract userId from request
 
-    public Post createPost(PostDTO postDTO, MultipartFile imageFile) {
         String imageUrl = uploadImage(imageFile);
 
         Post post = new Post();
-        post.setTitle(postDTO.getTitle());
-        post.setContent(postDTO.getContent());
-        post.setAuthor(postDTO.getAuthor());
-        post.setUserId(postDTO.getUserId());
-        post.setImageUrl(imageUrl);
+        post.setTitle(postRequestDTO.getTitle());
+        post.setContent(postRequestDTO.getContent());
+        post.setUserId(userId); // Set userId in the post entity
+        post.setImageUrl(imageUrl); 
 
         post.setCreatedAt(LocalDateTime.now());
 
         logger.info("Creating post: {}", post);
-        return postRepository.save(post);
+        postRepository.save(post);
+
+        return new PostResponseDTO(post.getTitle(), post.getContent(), post.getUserId());
     }
 
     public List<Post> getAllPosts() {
@@ -58,21 +62,22 @@ public class PostService {
         return postRepository.findById(id);
     }
 
-    public Post updatePost(String id, PostDTO postDTO, MultipartFile imageFile) {
+    public PostResponseDTO updatePost(String id, PostRequestDTO postRequestDTO, MultipartFile imageFile) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
+        
+        if (postRequestDTO.getTitle() != null) post.setTitle(postRequestDTO.getTitle());
+        if (postRequestDTO.getContent() != null) post.setContent(postRequestDTO.getContent());
 
-        if (postDTO.getTitle() != null) post.setTitle(postDTO.getTitle());
-        if (postDTO.getContent() != null) post.setContent(postDTO.getContent());
-        if (postDTO.getAuthor() != null) post.setAuthor(postDTO.getAuthor());
-        if (postDTO.getUserId() != null) post.setUserId(postDTO.getUserId());
-
-        String imageUrl = uploadImage(imageFile);
-        if (imageUrl != null) post.setImageUrl(imageUrl);
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String imageUrl = uploadImage(imageFile);
+            post.setImageUrl(imageUrl); // Update imageUrl only if a new image is provided
+        }
 
 
         logger.info("Updating post: {}", post);
-        return postRepository.save(post);
+        postRepository.save(post);
+        return new PostResponseDTO(post.getTitle(), post.getContent(), post.getUserId());
     }
 
     public void deletePost(String id) {
@@ -86,12 +91,9 @@ public class PostService {
             return null;
         }
 
-
         if (!isValidImageFile(imageFile)) {
-
             logger.error("Invalid image file: {}", imageFile.getOriginalFilename());
             logger.error("File type: {}, File size: {}", imageFile.getContentType(), imageFile.getSize());
-
             throw new RuntimeException("Invalid image file");
         }
 
@@ -103,7 +105,7 @@ public class PostService {
 
             String imageUrl = (String) uploadResult.get("url");
             logger.info("Image uploaded to: {}", imageUrl);
-            logger.debug("Upload result: {}", uploadResult); // Added logging for upload result
+            logger.debug("Upload result: {}", uploadResult);
             return imageUrl;
 
         } catch (IOException e) {
@@ -115,7 +117,6 @@ public class PostService {
     private boolean isValidImageFile(MultipartFile imageFile) {
         String contentType = imageFile.getContentType();
         long size = imageFile.getSize();
-
         return (contentType != null && (contentType.startsWith("image/"))) && size <= 5 * 1024 * 1024; // 5 MB limit
     }
 }
