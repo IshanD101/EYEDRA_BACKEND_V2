@@ -5,7 +5,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthReqDto {
+public class RegisterReqDto {
     private String username;
     private String password;
     private String email;
