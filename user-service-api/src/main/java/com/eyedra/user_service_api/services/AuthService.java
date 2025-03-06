@@ -1,6 +1,7 @@
 package com.eyedra.user_service_api.services;
 
-import com.eyedra.user_service_api.dto.request.AuthReqDto;
+import com.eyedra.user_service_api.dto.request.LoginReqDto;
+import com.eyedra.user_service_api.dto.request.RegisterReqDto;
 import com.eyedra.user_service_api.dto.response.AuthResponseDto;
 import com.eyedra.user_service_api.entity.User;
 import com.eyedra.user_service_api.jwt.JwtUtils;
@@ -35,12 +36,11 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public AuthResponseDto registerUser(AuthReqDto request) {
+    public void registerUser(RegisterReqDto request) {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
             throw new RuntimeException("Username already exists");
         }
 
-        // Create and save user user
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -51,15 +51,10 @@ public class AuthService {
         user.setRole(Role.ROLE_USER);
 
         userRepository.save(user);
-
-        // Generate JWT token with role information
-        String token = jwtUtils.generateToken(user.getUsername(), user.getRole());
-
-        // Return token in response
-        return new AuthResponseDto(token);
     }
 
-    public AuthResponseDto login(AuthReqDto request) {
+
+    public AuthResponseDto login(LoginReqDto request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
