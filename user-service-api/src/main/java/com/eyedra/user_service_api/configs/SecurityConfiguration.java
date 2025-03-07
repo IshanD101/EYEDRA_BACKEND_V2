@@ -20,7 +20,7 @@ public class SecurityConfiguration  {
 
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
-        return username -> userRepository.findByUserName(username).orElseThrow(()->new RuntimeException("No user found"));
+        return username -> userRepository.findByUsername(username).orElseThrow(()->new RuntimeException("No user found"));
     }
 
     @Bean
@@ -39,11 +39,12 @@ public class SecurityConfiguration  {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
         http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/login", "/register").permitAll()
-                .requestMatchers("/listener/**").hasRole("LISTENER")
-                .requestMatchers("/user/**").hasAnyRole("USER", "LISTENER")
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register").permitAll()
+                        .requestMatchers("/listener/**").hasRole("LISTENER")
+                        .requestMatchers("/api/v1/user/**").hasAnyRole("USER") // Updated path
                         .anyRequest().authenticated()
-        )
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

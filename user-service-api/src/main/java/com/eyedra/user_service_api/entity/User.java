@@ -15,45 +15,33 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-
     private String firstName;
     private String lastName;
+
+    @Column(nullable = false, unique = true)
+    private String username;
+
     private String email;
     private String password;
     private String mobileNumber;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
+    private String description;
+    private String imageUrl;
 
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
+    @Column(nullable = false)
+    private Role role;  // Store a single role as a column in the User table
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(role -> (GrantedAuthority) role::name) // Convert to SimpleGrantedAuthority
-                .collect(Collectors.toSet());
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;  // Return the password field here
+        return Set.of((GrantedAuthority) role::name); // Convert role to authority
     }
 
     @Override
@@ -76,3 +64,4 @@ public class User implements UserDetails {
         return true;
     }
 }
+

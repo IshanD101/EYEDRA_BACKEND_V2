@@ -1,10 +1,10 @@
-package com.eyedra.user_service_api;
+package com.eyedra.comment_service_api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class UserServiceApiApplicationTests {
+class CommentServiceApiApplicationTests {
 
 	@Test
 	void contextLoads() {
