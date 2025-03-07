@@ -32,6 +32,9 @@ public class User implements UserDetails {
     private String password;
     private String mobileNumber;
 
+    private String description;
+    private String imageUrl;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;  // Store a single role as a column in the User table
