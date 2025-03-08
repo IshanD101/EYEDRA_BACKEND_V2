@@ -10,7 +10,6 @@
 	</parent>
 	<groupId>com.eyedra</groupId>
 	<artifactId>post-service-api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>post-service-api</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>

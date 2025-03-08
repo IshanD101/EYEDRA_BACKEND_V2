@@ -6,6 +6,7 @@ import com.eyedra.post_service_api.dto.PostResponseDTO;
 import com.eyedra.post_service_api.dto.PostSearchDTO;
 import com.eyedra.post_service_api.repository.PostRepository;
 
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +34,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 
+
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -41,18 +43,10 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
-
-    @Autowired
     private final MongoTemplate mongoTemplate;
-
-    @Autowired
-    private Cloudinary cloudinary;
-
-    @Autowired
     private RestTemplate restTemplate;
-
-    @Value("${user-service.url}")
-    private String userServiceUrl; // UserService URL
+    private Cloudinary cloudinary;
+    private String userServiceUrl = "http://localhost:8761/"; // UserService URL
 
 public PostResponseDTO createPost(PostRequestDTO postRequestDTO, MultipartFile imageFile) {
     String userId = postRequestDTO.getUserId(); // Extract userId from request
