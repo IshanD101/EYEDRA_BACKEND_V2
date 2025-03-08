@@ -15,6 +15,5 @@ public class PostRequestDTO {
     private String title;
     private String content;
     private String userId; // Added userId field
-
     private String imageUrl;
 }
