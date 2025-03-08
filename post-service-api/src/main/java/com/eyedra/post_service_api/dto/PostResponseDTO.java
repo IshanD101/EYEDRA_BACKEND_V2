@@ -14,5 +14,7 @@ import lombok.Setter;
 public class PostResponseDTO {
     private String title;
     private String content;
+    private String author;
+
     private String userId; // Removed author field
 }
