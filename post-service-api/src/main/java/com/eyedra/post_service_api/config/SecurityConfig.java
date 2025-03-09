@@ -1,4 +1,4 @@
-package com.eyedra.reaction_service_api.config;
+package com.eyedra.post_service_api.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
