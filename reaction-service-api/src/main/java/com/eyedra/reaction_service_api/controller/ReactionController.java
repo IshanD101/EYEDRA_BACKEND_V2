@@ -1,6 +1,9 @@
 package com.eyedra.reaction_service_api.controller;
 
 import com.eyedra.reaction_service_api.entity.Reaction;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 import com.eyedra.reaction_service_api.services.ReactionService;
 import com.eyedra.reaction_service_api.services.SocketService;
 
@@ -11,12 +14,6 @@ import com.eyedra.reaction_service_api.exception.ReactionNotFoundException;
 import com.eyedra.reaction_service_api.dto.RequestDTO;
 import com.eyedra.reaction_service_api.dto.ResponseDTO;
 import com.eyedra.reaction_service_api.dto.CreateReactionDTO;
-import com.eyedra.reaction_service_api.dto.DeleteReactionDTO;
-
-
-
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/reactions")
@@ -27,72 +24,51 @@ public class ReactionController {
     @Autowired
     private SocketService socketService;
 
-
     @PostMapping
-    public Reaction createReaction(@RequestBody CreateReactionDTO createReactionDTO) {
+    public Mono<ResponseEntity<Reaction>> createReaction(@RequestBody CreateReactionDTO createReactionDTO) {
         Reaction reaction = new Reaction();
         reaction.setUserId(createReactionDTO.getUserId());
         reaction.setPostId(createReactionDTO.getPostId());
         reaction.setHrt(createReactionDTO.isHrt());
-        Reaction createdReaction = reactionService.createReaction(reaction);
-        socketService.sendMessage("New reaction created: " + createdReaction.toString());
-        return createdReaction;
-
+        return reactionService.createReaction(reaction)
+            .doOnNext(r -> socketService.sendMessage("New reaction created: " + r.toString()))
+            .map(ResponseEntity::ok);
     }
 
-    @PostMapping("/count")
-    public ResponseEntity<ResponseDTO> getTotalReactionsByPostId(@RequestBody RequestDTO requestDTO) {
-        long count = reactionService.getTotalReactionsByPostId(requestDTO.getPostId());
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setTotalReactions(count);
-        return ResponseEntity.ok(responseDTO);
+    @GetMapping("/count/{postId}")
+    public Mono<ResponseEntity<ResponseDTO>> getTotalReactionsByPostId(@PathVariable String postId) {
+        return reactionService.getTotalReactionsByPostId(postId)
+            .map(count -> {
+                ResponseDTO responseDTO = new ResponseDTO();
+                responseDTO.setTotalReactions(count);
+                return ResponseEntity.ok(responseDTO);
+            });
     }
 
     @GetMapping
-    public List<Reaction> getAllReactions() {
+    public Flux<Reaction> getAllReactions() {
         return reactionService.getAllReactions();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Reaction> getReactionById(@PathVariable String id) {
+    public Mono<ResponseEntity<Reaction>> getReactionById(@PathVariable String id) {
         return reactionService.getReactionById(id)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Reaction> updateReaction(@PathVariable String id, @RequestBody Reaction reaction) {
+    public Mono<ResponseEntity<Reaction>> updateReaction(@PathVariable String id, @RequestBody Reaction reaction) {
         socketService.sendMessage("Reaction updated: " + reaction.toString());
-
-        try {
-            Reaction updatedReaction = reactionService.updateReaction(id, reaction);
-            return ResponseEntity.ok(updatedReaction);
-        } catch (ReactionNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-
-    @DeleteMapping
-    public ResponseEntity<Void> deleteReaction(@RequestBody DeleteReactionDTO deleteReactionDTO) {
-        try {
-            reactionService.deleteReaction(deleteReactionDTO.getReactionId());
-            socketService.sendMessage("Reaction deleted: " + deleteReactionDTO.getReactionId());
-
-            return ResponseEntity.noContent().build();
-        } catch (ReactionNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return reactionService.updateReaction(id, reaction)
+                .map(ResponseEntity::ok)
+                .onErrorReturn(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteReaction(@PathVariable String id) {
-        try {
-            reactionService.deleteReaction(id);
-            return ResponseEntity.noContent().build();
-        } catch (ReactionNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public Mono<ResponseEntity<Object>> deleteReaction(@PathVariable String id) {
+        return reactionService.deleteReaction(id)
+        .then(Mono.just(ResponseEntity.noContent().build()))
+        .onErrorResume(ReactionNotFoundException.class, e -> Mono.just(ResponseEntity.notFound().build())); // Handle exception properly
     }
-
 }
