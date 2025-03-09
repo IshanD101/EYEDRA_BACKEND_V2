@@ -2,6 +2,8 @@ package com.eyedra.reaction_service_api.controller;
 
 import com.eyedra.reaction_service_api.entity.Reaction;
 import com.eyedra.reaction_service_api.services.ReactionService;
+import com.eyedra.reaction_service_api.services.SocketService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +24,20 @@ public class ReactionController {
     @Autowired
     private ReactionService reactionService;
 
+    @Autowired
+    private SocketService socketService;
+
+
     @PostMapping
     public Reaction createReaction(@RequestBody CreateReactionDTO createReactionDTO) {
         Reaction reaction = new Reaction();
         reaction.setUserId(createReactionDTO.getUserId());
         reaction.setPostId(createReactionDTO.getPostId());
         reaction.setHrt(createReactionDTO.isHrt());
-        return reactionService.createReaction(reaction);
+        Reaction createdReaction = reactionService.createReaction(reaction);
+        socketService.sendMessage("New reaction created: " + createdReaction.toString());
+        return createdReaction;
+
     }
 
     @PostMapping("/count")
@@ -53,6 +62,8 @@ public class ReactionController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Reaction> updateReaction(@PathVariable String id, @RequestBody Reaction reaction) {
+        socketService.sendMessage("Reaction updated: " + reaction.toString());
+
         try {
             Reaction updatedReaction = reactionService.updateReaction(id, reaction);
             return ResponseEntity.ok(updatedReaction);
@@ -66,6 +77,8 @@ public class ReactionController {
     public ResponseEntity<Void> deleteReaction(@RequestBody DeleteReactionDTO deleteReactionDTO) {
         try {
             reactionService.deleteReaction(deleteReactionDTO.getReactionId());
+            socketService.sendMessage("Reaction deleted: " + deleteReactionDTO.getReactionId());
+
             return ResponseEntity.noContent().build();
         } catch (ReactionNotFoundException e) {
             return ResponseEntity.notFound().build();
