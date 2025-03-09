@@ -13,11 +13,13 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public CommunityResponseDto getGroupById(Long communityId) {
+
         return null;
     }
 
     @Override
     public CommunityResponseDto updateGroup(Long communityId, CommunityReqDto request) {
+
         return null;
     }
 
