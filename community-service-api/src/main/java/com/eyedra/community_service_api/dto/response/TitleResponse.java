@@ -8,5 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TitleResponse {
+    private Long communityId;
     private String title;
+
 }

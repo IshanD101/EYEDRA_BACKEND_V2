@@ -3,7 +3,6 @@ package com.eyedra.community_service_api.service;
 import com.eyedra.community_service_api.dto.request.CommunityReqDto;
 import com.eyedra.community_service_api.dto.response.CommunityResponseDto;
 import com.eyedra.community_service_api.dto.response.TitleResponse;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

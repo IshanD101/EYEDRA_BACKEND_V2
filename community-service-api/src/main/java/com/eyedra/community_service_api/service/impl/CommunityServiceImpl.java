@@ -10,7 +10,6 @@ import com.eyedra.community_service_api.service.CommunityService;
 import com.eyedra.community_service_api.util.CommunitySpaceMapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -62,26 +62,69 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public CommunityResponseDto updateGroup(Long communityId, CommunityReqDto request) {
 
+        Set<CommunitySpace> community = communitySpaceRepository.findByCommunityId(communityId);
+
+        if (!community.isEmpty()){
+            CommunitySpace communitySpace = community.iterator().next();
+
+            communitySpace.setTitle(request.getTitle());
+            communitySpace.setDescription(request.getDescription());
+
+            CommunitySpace updatedCommunity = communitySpaceRepository.save(communitySpace);
+            return CommunitySpaceMapper.mapToCommunityResponseDto(updatedCommunity);
+        }
+
         return null;
     }
 
     @Override
     public void deleteGroup(Long communityId) {
+        List<CommunitySpace> communities = communitySpaceRepository.findAll();
+        Optional<CommunitySpace> communitySpace = communities.stream()
+                .filter(c -> c.getCommunityId().equals(communityId))
+                .findFirst();
 
+        if (communitySpace.isPresent()) {
+            CommunitySpace community = communitySpace.get();
+            community.setActive(false);
+            communitySpaceRepository.save(community);
+        }
     }
 
     @Override
     public void addMembers(Long communityId, Long membersId) {
+        List<CommunitySpace> allCommunities = communitySpaceRepository.findAll();
+        Optional<CommunitySpace> communityOpt = allCommunities.stream()
+                .filter(c -> c.getCommunityId().equals(communityId))
+                .findFirst();
 
+        if (communityOpt.isPresent()) {
+            CommunitySpace community = communityOpt.get();
+            community.getMembersId().add(membersId);
+            communitySpaceRepository.save(community);
+        }
     }
 
     @Override
     public boolean isUserAMemeber(Long membersId, Long communityId) {
-        return false;
+        Optional<CommunitySpace> communityUser = communitySpaceRepository
+                .findByIdAndMemberId(communityId, membersId);
+        return communityUser.isPresent();
     }
 
     @Override
     public List<TitleResponse> searchByGroupTitle(String title) {
-        return List.of();
+        List<CommunitySpace> communities;
+
+        if (title == null || title.isEmpty()) {
+            communities = communitySpaceRepository.findAll();
+        } else {
+            communities = communitySpaceRepository.findByTitle(title);
+        }
+
+        return communities.stream()
+                .filter(CommunitySpace::isActive)
+                .map(community -> new TitleResponse(community.getCommunityId(), community.getTitle()))
+                .collect(Collectors.toList());
     }
 }
