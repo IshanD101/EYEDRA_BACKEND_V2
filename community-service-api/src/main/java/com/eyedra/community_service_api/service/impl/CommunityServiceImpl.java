@@ -41,7 +41,6 @@ public class CommunityServiceImpl implements CommunityService {
         community.setMembersId(new HashSet<>());
         community.setCreationDate(LocalDateTime.now());
         community.setActive(true);
-        communitySpaceRepository.save(community);
 
         CommunitySpace saved = communitySpaceRepository.save(community);
         return CommunitySpaceMapper.mapToCommunityResponseDto(saved);

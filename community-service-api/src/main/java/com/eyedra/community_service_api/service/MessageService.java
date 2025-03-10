@@ -9,7 +9,7 @@ import java.util.List;
 public interface MessageService {
     MessageResponseDto sendMessage(Long communityId, MessageReqDto request);
 
-    List<MessageResponseDto> getGroupMessages(Long communityId);
+    List<MessageResponseDto> getGroupMessages(Long messageId);
 
     void markMessagesAsRead(Long communityId);
 
