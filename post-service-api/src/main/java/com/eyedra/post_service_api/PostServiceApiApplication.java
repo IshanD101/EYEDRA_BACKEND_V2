@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableReactiveMongoRepositories(basePackages = "com.eyedra.post_service_api.repository")
-@ComponentScan(basePackages = "com.eyedra.post_service_api")
 public class PostServiceApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(PostServiceApiApplication.class, args);

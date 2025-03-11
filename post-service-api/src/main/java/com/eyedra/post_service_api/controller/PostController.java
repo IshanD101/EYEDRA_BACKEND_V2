@@ -8,41 +8,29 @@ import com.eyedra.post_service_api.services.PostService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/posts")
 public class PostController {
 
-    @Autowired
-    private PostService postService;
+    private final PostService postService;
+
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
 
     @PostMapping
-    public ResponseEntity<Mono<Object>> createPost(@RequestParam("title") String title,
-                                                     @RequestParam("content") String content,
-                                                     @RequestParam("userId") String userId, // Added userId parameter
-                                                     @RequestParam(value = "image", required = false) MultipartFile imageFile) {
+    public Mono<ResponseEntity<PostResponseDTO>> createPost(@Valid @ModelAttribute PostRequestDTO postRequestDTO,
+                                                            @RequestParam(value = "image", required = false) MultipartFile imageFile) {
 
-        if (title == null || title.isEmpty() || content == null || content.isEmpty() || userId == null || userId.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (imageFile != null && !isValidImageFile(imageFile)) {
-            return ResponseEntity.badRequest().body(null); // Invalid image file
-        }
-
-        PostRequestDTO postRequestDTO = new PostRequestDTO();
-        postRequestDTO.setTitle(title);
-        postRequestDTO.setContent(content);
-        postRequestDTO.setUserId(userId); // Set userId in the DTO
-
-        Mono<Object> createdPost = postService.createPost(postRequestDTO, imageFile);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
+        return postService.createPost(postRequestDTO, imageFile)
+                .map(post -> ResponseEntity.status(HttpStatus.CREATED).body(post));
     }
 
     @GetMapping
@@ -64,21 +52,8 @@ public class PostController {
 
     @PutMapping("/{id}")
     public Mono<ResponseEntity<PostResponseDTO>> updatePost(@PathVariable String id,
-                                                     @RequestParam(value = "title", required = false) String title,
-                                                     @RequestParam(value = "content", required = false) String content,
-                                                     @RequestParam(value = "image", required = false) MultipartFile imageFile) {
-
-        if (id == null || id.isEmpty()) {
-            return Mono.just(ResponseEntity.badRequest().build());
-        }
-
-        if (imageFile != null && !isValidImageFile(imageFile)) {
-            return Mono.just(ResponseEntity.badRequest().build());
-        }
-
-        PostRequestDTO postRequestDTO = new PostRequestDTO();
-        postRequestDTO.setTitle(title);
-        postRequestDTO.setContent(content);
+                                                            @Valid @ModelAttribute PostRequestDTO postRequestDTO,
+                                                            @RequestParam(value = "image", required = false) MultipartFile imageFile) {
 
         return postService.updatePost(id, postRequestDTO, imageFile)
                 .map(ResponseEntity::ok)
@@ -89,12 +64,5 @@ public class PostController {
     public Mono<ResponseEntity<Void>> deletePost(@PathVariable String id) {
         return postService.deletePost(id)
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));
-    }
-
-    private boolean isValidImageFile(MultipartFile imageFile) {
-        String contentType = imageFile.getContentType();
-        long size = imageFile.getSize();
-
-        return (contentType != null && (contentType.startsWith("image/"))) && size <= 5 * 1024 * 1024; // 5 MB limit
     }
 }
