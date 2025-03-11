@@ -8,8 +8,10 @@ import com.eyedra.post_service_api.repository.PostRepository;
 
 
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,21 +24,20 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
+import org.springframework.web.reactive.function.client.WebClient;
+
 
 
 
 @Service
 @RequiredArgsConstructor
+@EnableReactiveMongoRepositories(basePackages = "com.eyedra.post_service_api.repository")
 public class PostService {
 
     private static final Logger logger = LoggerFactory.getLogger(PostService.class);
@@ -44,93 +45,103 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
     private final MongoTemplate mongoTemplate;
-    private RestTemplate restTemplate;
+    private WebClient webClient;
+
     private Cloudinary cloudinary;
     private String userServiceUrl = "http://localhost:8761/"; // UserService URL
 
-public PostResponseDTO createPost(PostRequestDTO postRequestDTO, MultipartFile imageFile) {
-    String userId = postRequestDTO.getUserId(); // Extract userId from request
-    String author = getUsername(userId); // Default author name
+    public Mono<Object> createPost(PostRequestDTO postRequestDTO, MultipartFile imageFile) {
+        return getUsername(postRequestDTO.getUserId())
+            .flatMap(author -> {
+                return uploadImage(imageFile).switchIfEmpty(Mono.just(""))
+                .flatMap(imageUrl -> {
+                    Post post = new Post();
+                    post.setTitle(postRequestDTO.getTitle());
+                    post.setContent(postRequestDTO.getContent());
+                    post.setAuthor(author);
+                    post.setUserId(postRequestDTO.getUserId());
+                    post.setImageUrl(imageUrl);
+                    post.setCreatedAt(LocalDateTime.now());
 
-        String imageUrl = uploadImage(imageFile);
-
-        Post post = new Post();
-        post.setTitle(postRequestDTO.getTitle());
-        post.setContent(postRequestDTO.getContent());
-        post.setAuthor(author);
-        post.setUserId(userId); // Set userId in the post entity
-        post.setImageUrl(imageUrl);
-        post.setCreatedAt(LocalDateTime.now());
-        logger.info("Creating post: {}", post);
-
-        postRepository.save(post);
-
-        return new PostResponseDTO(post.getTitle(), post.getContent(), post.getUserId(), post.getAuthor());
+                    logger.info("Creating post: {}", post);
+                    return postRepository.save(post)
+                        .map(savedPost -> new PostResponseDTO(
+                            savedPost.getTitle(),
+                            savedPost.getContent(),
+                            savedPost.getAuthor(),
+                            savedPost.getUserId()
+                        ));
+                });
+            });
     }
 
-    public List<Post> getAllPosts() {
+    public Flux<Post> getAllPosts() {
         return postRepository.findAll();
     }
 
-    public List<Post> getPostsByUserId(String userId) {
+    public Flux<Post> getPostsByUserId(String userId) {
+
         return postRepository.findByUserId(userId);
     }
 
-    public Optional<Post> getPostById(String id) {
+    public Mono<Post> getPostById(String id) {
         return postRepository.findById(id);
     }
 
-    public PostResponseDTO updatePost(String id, PostRequestDTO postRequestDTO, MultipartFile imageFile) {
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+    public Mono<PostResponseDTO> updatePost(String id, PostRequestDTO postRequestDTO, MultipartFile imageFile) {
+        return postRepository.findById(id)
+            .switchIfEmpty(Mono.error(new RuntimeException("Post not found")))
+            .flatMap(post -> {
+                if (postRequestDTO.getTitle() != null) post.setTitle(postRequestDTO.getTitle());
+                if (postRequestDTO.getContent() != null) post.setContent(postRequestDTO.getContent());
 
-        if (postRequestDTO.getTitle() != null) post.setTitle(postRequestDTO.getTitle());
-        if (postRequestDTO.getContent() != null) post.setContent(postRequestDTO.getContent());
-
-        if (imageFile != null && !imageFile.isEmpty()) {
-            String imageUrl = uploadImage(imageFile);
-            post.setImageUrl(imageUrl); // Update imageUrl only if a new image is provided
-        }
-
-
-        logger.info("Updating post: {}", post);
-        postRepository.save(post);
-        return new PostResponseDTO(post.getTitle(), post.getContent(), post.getUserId(), post.getAuthor());
+                if (imageFile != null && !imageFile.isEmpty()) {
+                    return uploadImage(imageFile)
+                        .map(imageUrl -> {
+                            post.setImageUrl(imageUrl);
+                            return post;
+                        });
+                }
+                return Mono.just(post);
+            })
+            .flatMap(postRepository::save)
+            .map(savedPost -> new PostResponseDTO(
+                savedPost.getTitle(),
+                savedPost.getContent(),
+                savedPost.getUserId(),
+                savedPost.getAuthor()
+            ));
     }
 
-    public void deletePost(String id) {
-        postRepository.deleteById(id);
-        logger.info("Deleted post with id: {}", id);
+    public Mono<Void> deletePost(String id) {
+        return postRepository.deleteById(id);
     }
 
-    private String uploadImage(MultipartFile imageFile) {
+    private Mono<String> uploadImage(MultipartFile imageFile) {
         if (imageFile == null || imageFile.isEmpty()) {
-            logger.error("No image file provided");
-            return null;
+            logger.warn("No image file provided");
+            return Mono.empty();
         }
 
         if (!isValidImageFile(imageFile)) {
             logger.error("Invalid image file: {}", imageFile.getOriginalFilename());
-            logger.error("File type: {}, File size: {}", imageFile.getContentType(), imageFile.getSize());
-            throw new RuntimeException("Invalid image file");
+            return Mono.error(new RuntimeException("Invalid image file"));
         }
 
         try {
             String uniqueID = UUID.randomUUID().toString();
-            @SuppressWarnings("unchecked")
             Map<String, Object> uploadResult = (Map<String, Object>) cloudinary.uploader().upload(imageFile.getBytes(),
                     ObjectUtils.asMap("resource_type", "image", "public_id", uniqueID));
-
             String imageUrl = (String) uploadResult.get("url");
             logger.info("Image uploaded to: {}", imageUrl);
-            logger.debug("Upload result: {}", uploadResult);
-            return imageUrl;
+            return Mono.justOrEmpty(imageUrl);
 
         } catch (IOException e) {
             logger.error("Error uploading image: {}", e.getMessage());
-            throw new RuntimeException("Image upload failed", e);
+            return Mono.error(new RuntimeException("Image upload failed", e));
         }
     }
+
 
     private boolean isValidImageFile(MultipartFile imageFile) {
         String contentType = imageFile.getContentType();
@@ -138,8 +149,8 @@ public PostResponseDTO createPost(PostRequestDTO postRequestDTO, MultipartFile i
         return (contentType != null && (contentType.startsWith("image/"))) && size <= 5 * 1024 * 1024; // 5 MB limit
     }
 
-    public List<Post> searchPosts(PostSearchDTO searchDTO) {
-
+    // Update searchPosts to be reactive
+    public Flux<Post> searchPosts(PostSearchDTO searchDTO) {
         Query query = new Query();
 
         if (searchDTO.getTitle() != null && !searchDTO.getTitle().isEmpty()) {
@@ -157,14 +168,15 @@ public PostResponseDTO createPost(PostRequestDTO postRequestDTO, MultipartFile i
             query.addCriteria(Criteria.where("createdAt").gte(start).lte(end));
         }
 
-        return mongoTemplate.find(query, Post.class);
+        return Flux.fromIterable(mongoTemplate.find(query, Post.class));
     }
-    private String getUsername(String userId) {
-         try {
-            // Call UserService to get the username by userId
-            ResponseEntity<String> response = restTemplate.exchange(
-                    userServiceUrl + "/api/v1/users/" + userId, HttpMethod.GET, null, String.class);
-            return response.getBody(); // Assuming the response is the username
+    private Mono<String> getUsername(String userId) {
+        try {
+            return webClient.get()
+                    .uri(userServiceUrl + "/api/v1/users/" + userId)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .doOnError(e -> logger.error("Failed to fetch username for userId: {}", userId, e));
         } catch (Exception e) {
             logger.error("Failed to fetch username for userId: {}", userId, e);
             throw new RuntimeException("Failed to fetch username from UserService");
