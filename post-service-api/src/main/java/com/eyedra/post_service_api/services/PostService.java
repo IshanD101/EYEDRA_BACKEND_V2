@@ -7,10 +7,14 @@ import com.eyedra.post_service_api.dto.PostSearchDTO;
 import com.eyedra.post_service_api.repository.PostRepository;
 
 import lombok.RequiredArgsConstructor;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.cloudinary.Cloudinary;
