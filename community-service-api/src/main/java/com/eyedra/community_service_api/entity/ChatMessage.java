@@ -20,12 +20,14 @@ public class ChatMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long messageId;
+    private String id;
 
+    private Long messageId;
     private Long communityId;
     private Long senderId;
     private String senderName;
     private String content;
     private LocalDateTime timestamp;
+    private boolean isRead = false;
     private boolean isDeleted = false;
 }
