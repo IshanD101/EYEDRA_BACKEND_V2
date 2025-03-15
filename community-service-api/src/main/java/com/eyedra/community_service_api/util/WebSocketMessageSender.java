@@ -12,7 +12,8 @@ public class WebSocketMessageSender {
     private SimpMessagingTemplate messageTemplate;
 
     public void broadcastMessage(Long communityId, ChatMessage message) {
-        messageTemplate.convertAndSend("/topic/community/" + communityId, message);
+        messageTemplate.convertAndSend("/topic/community." + communityId,
+                ChatMessageMapper.mapToMessageResponseDto(message));
     }
 
     public void broadcastRead (Long communityId) {

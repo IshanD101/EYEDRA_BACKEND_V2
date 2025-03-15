@@ -3,19 +3,20 @@ package com.eyedra.community_service_api.service;
 
 import com.eyedra.community_service_api.dto.request.MessageReqDto;
 import com.eyedra.community_service_api.dto.response.MessageResponseDto;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 public interface MessageService {
-    MessageResponseDto sendMessage(Long communityId, MessageReqDto request);
+    Mono<MessageResponseDto> sendMessage(Long communityId, Long senderId, MessageReqDto request);
 
-    List<MessageResponseDto> getGroupMessages(Long messageId);
+    Mono<List<MessageResponseDto>> getGroupMessages(Long communityId, Long userId);
 
-    void markMessagesAsRead(Long communityId);
+    Mono<Void> markMessagesAsRead(Long communityId, Long userId);
 
-    long getUnreadMessagesCount(Long communityId);
+    Mono<Long> getUnreadMessagesCount(Long communityId, Long userId);
 
-    long getTotalUnreadMessagesCount();
+    Mono<Long> getTotalUnreadMessagesCount(Long userId);
 
-    List<MessageResponseDto> getLatestMessages(List<Long> communityIds);
+    Mono<List<MessageResponseDto>> getLatestMessages(List<Long> communityIds, Long userId);
 }
