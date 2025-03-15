@@ -1,6 +1,6 @@
 package com.eyedra.community_service_api.entity;
 
-import jakarta.persistence.Id;
+import org.springframework.data.annotation.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
