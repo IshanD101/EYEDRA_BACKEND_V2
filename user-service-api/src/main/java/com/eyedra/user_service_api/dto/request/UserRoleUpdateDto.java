@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AdminUserApprovalReqDto {
+public class UserRoleUpdateDto {
+    private Long userId;
     private Role role;
 }

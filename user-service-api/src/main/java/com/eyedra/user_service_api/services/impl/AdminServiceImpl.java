@@ -28,32 +28,19 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<UserListResponseDto> getUsersByRole(String role) {
-        Role userRole;
-        try {
-            userRole = Role.valueOf(role.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Invalid role: " + role);
-        }
+    public List<UserListResponseDto> getUsersByRole(Role role) {
 
-        return userRepository.findByRole(userRole).stream()
+        return userRepository.findByRole(role).stream()
                 .map(userMapper::mapToUserListDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void updateUserRole(Long userId, String role) {
+    public void updateUserRole(Long userId, Role role) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
 
-        Role userRole;
-        try {
-            userRole = Role.valueOf(role.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Invalid role: " + role);
-        }
-
-        user.setRole(userRole);
+        user.setRole(role);
         userRepository.save(user);
     }
 
