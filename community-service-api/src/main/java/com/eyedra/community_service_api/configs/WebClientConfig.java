@@ -12,7 +12,7 @@ public class WebClientConfig {
     @Bean
     public WebClient userServiceWebClient() {
         return WebClient.builder()
-                .baseUrl("http://user-service-api/api/users")
+                .baseUrl("")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
