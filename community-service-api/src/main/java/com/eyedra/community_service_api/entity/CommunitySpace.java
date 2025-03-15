@@ -19,11 +19,12 @@ import java.util.Set;
 public class CommunitySpace {
 
     @Id
-    private Long communityId;
+    private String id;
 
+    private Long communityId;
     private String title;
     private String description;
-    private String creatorId;
+    private Long creatorId;
 
     @ElementCollection
     private Set<Long> membersId = new HashSet<>();
