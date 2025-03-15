@@ -19,4 +19,5 @@ public class MessageResponseDto {
     private String content;
     private LocalDateTime timestamp;
     private boolean isDeleted = false;
+    private boolean isRead;
 }

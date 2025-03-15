@@ -4,26 +4,22 @@ import com.eyedra.community_service_api.dto.request.CommunityReqDto;
 import com.eyedra.community_service_api.dto.response.CommunityResponseDto;
 import com.eyedra.community_service_api.dto.response.TitleResponse;
 import com.eyedra.community_service_api.entity.CommunitySpace;
-import com.eyedra.community_service_api.exception.ResourceNotFoundException;
+import com.eyedra.community_service_api.exception.UnauthorizedException;
 import com.eyedra.community_service_api.repository.CommunitySpaceRepository;
 import com.eyedra.community_service_api.service.CommunityService;
+import com.eyedra.community_service_api.service.UserVerificationService;
 import com.eyedra.community_service_api.util.CommunitySpaceMapper;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 @Service
-@AllArgsConstructor
 @Getter
 @Setter
 public class CommunityServiceImpl implements CommunityService {
@@ -31,99 +27,69 @@ public class CommunityServiceImpl implements CommunityService {
     @Autowired
     private CommunitySpaceRepository communitySpaceRepository;
 
-
+    @Autowired
+    private UserVerificationService userVerificationService;
 
     @Override
-    public CommunityResponseDto createGroup(CommunityReqDto createGroup) {
-        CommunitySpace community = new CommunitySpace();
-        community.setTitle(createGroup.getTitle());
-        community.setDescription(createGroup.getDescription());
-        community.setMembersId(new HashSet<>());
-        community.setCreationDate(LocalDateTime.now());
-        community.setActive(true);
+    public Mono<CommunityResponseDto> createGroup(String token, Long creatorId, CommunityReqDto createGroup) {
+        return Mono.zip(
+                userVerificationService.isListener(token, creatorId),
+                userVerificationService.isAdmin(token, creatorId)
+        ).flatMap(tuple -> {
+            boolean isListener = tuple.getT1();
+            boolean isAdmin = tuple.getT2();
 
-        CommunitySpace saved = communitySpaceRepository.save(community);
-        return CommunitySpaceMapper.mapToCommunityResponseDto(saved);
+            if (!isListener && !isAdmin) {
+                return Mono.error(new UnauthorizedException("Only listeners and admins can create groups"));
+            }
+
+            CommunitySpace community = new CommunitySpace();
+            community.setTitle(createGroup.getTitle());
+            community.setDescription(createGroup.getDescription());
+            community.setMembersId(new HashSet<>());
+            community.setCreationDate(LocalDateTime.now());
+            community.setActive(true);
+            community.setCreatorId(creatorId);
+
+            community.getMembersId().add(creatorId);
+
+            CommunitySpace saved = communitySpaceRepository.save(community);
+            return Mono.just(CommunitySpaceMapper.mapToCommunityResponseDto(saved));
+        });
     }
 
     @Override
-    public CommunityResponseDto getGroupById(Long communityId) {
-        Set<CommunitySpace> communitySpaces = communitySpaceRepository.findByCommunityId(communityId);
-
-        if (communitySpaces.isEmpty()) {
-            throw new ResourceNotFoundException("Community not found with id: " + communityId);
-        }
-
-        CommunitySpace communitySpace = communitySpaces.iterator().next();
-        return CommunitySpaceMapper.mapToCommunityResponseDto(communitySpace);
-    }
-
-    @Override
-    public CommunityResponseDto updateGroup(Long communityId, CommunityReqDto request) {
-
-        Set<CommunitySpace> community = communitySpaceRepository.findByCommunityId(communityId);
-
-        if (!community.isEmpty()){
-            CommunitySpace communitySpace = community.iterator().next();
-
-            communitySpace.setTitle(request.getTitle());
-            communitySpace.setDescription(request.getDescription());
-
-            CommunitySpace updatedCommunity = communitySpaceRepository.save(communitySpace);
-            return CommunitySpaceMapper.mapToCommunityResponseDto(updatedCommunity);
-        }
-
+    public Mono<CommunityResponseDto> getGroupById(Long communityId) {
         return null;
     }
 
     @Override
-    public void deleteGroup(Long communityId) {
-        List<CommunitySpace> communities = communitySpaceRepository.findAll();
-        Optional<CommunitySpace> communitySpace = communities.stream()
-                .filter(c -> c.getCommunityId().equals(communityId))
-                .findFirst();
-
-        if (communitySpace.isPresent()) {
-            CommunitySpace community = communitySpace.get();
-            community.setActive(false);
-            communitySpaceRepository.save(community);
-        }
+    public Mono<CommunityResponseDto> updateGroup(String token, Long userId, Long communityId, CommunityReqDto request) {
+        return null;
     }
 
     @Override
-    public void addMembers(Long communityId, Long membersId) {
-        List<CommunitySpace> allCommunities = communitySpaceRepository.findAll();
-        Optional<CommunitySpace> communityOpt = allCommunities.stream()
-                .filter(c -> c.getCommunityId().equals(communityId))
-                .findFirst();
-
-        if (communityOpt.isPresent()) {
-            CommunitySpace community = communityOpt.get();
-            community.getMembersId().add(membersId);
-            communitySpaceRepository.save(community);
-        }
+    public Mono<Void> deleteGroup(String token, Long userId, Long communityId) {
+        return null;
     }
 
     @Override
-    public boolean isUserAMemeber(Long membersId, Long communityId) {
-        Optional<CommunitySpace> communityUser = communitySpaceRepository
-                .findByIdAndMemberId(communityId, membersId);
-        return communityUser.isPresent();
+    public Mono<Void> addMembers(String token, Long requesterId, Long communityId, Long newMemberId) {
+        return null;
     }
 
     @Override
-    public List<TitleResponse> searchByGroupTitle(String title) {
-        List<CommunitySpace> communities;
+    public Mono<Boolean> isUserAMember(Long memberId, Long communityId) {
+        return null;
+    }
 
-        if (title == null || title.isEmpty()) {
-            communities = communitySpaceRepository.findAll();
-        } else {
-            communities = communitySpaceRepository.findByTitle(title);
-        }
+    @Override
+    public Mono<Void> leaveGroup(Long userId, Long communityId) {
+        return null;
+    }
 
-        return communities.stream()
-                .filter(CommunitySpace::isActive)
-                .map(community -> new TitleResponse(community.getCommunityId(), community.getTitle()))
-                .collect(Collectors.toList());
+    @Override
+    public Mono<List<TitleResponse>> searchByGroupTitle(String title) {
+        return null;
     }
 }

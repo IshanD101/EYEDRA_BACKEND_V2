@@ -3,21 +3,25 @@ package com.eyedra.community_service_api.service;
 import com.eyedra.community_service_api.dto.request.CommunityReqDto;
 import com.eyedra.community_service_api.dto.response.CommunityResponseDto;
 import com.eyedra.community_service_api.dto.response.TitleResponse;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 public interface CommunityService {
-    CommunityResponseDto createGroup(CommunityReqDto createGroup);
 
-    CommunityResponseDto getGroupById(Long communityId);
+    Mono<CommunityResponseDto> createGroup(String token, Long creatorId, CommunityReqDto createGroup);
 
-    CommunityResponseDto updateGroup(Long communityId, CommunityReqDto request);
+    Mono<CommunityResponseDto> getGroupById(Long communityId);
 
-    void deleteGroup(Long communityId);
+    Mono<CommunityResponseDto> updateGroup(String token, Long userId, Long communityId, CommunityReqDto request);
 
-    void addMembers(Long communityId, Long membersId);
+    Mono<Void> deleteGroup(String token, Long userId, Long communityId);
 
-    boolean isUserAMemeber(Long membersId, Long communityId);
+    Mono<Void> addMembers(String token, Long requesterId, Long communityId, Long newMemberId);
 
-    List<TitleResponse> searchByGroupTitle(String title);
+    Mono<Boolean> isUserAMember(Long memberId, Long communityId);
+
+    Mono<Void> leaveGroup(Long userId, Long communityId);
+
+    Mono<List<TitleResponse>> searchByGroupTitle(String title);
 }

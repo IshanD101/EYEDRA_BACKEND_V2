@@ -23,7 +23,7 @@ public class CommunitySpace {
 
     private String title;
     private String description;
-    private String creatorId;
+    private Long creatorId;
 
     @ElementCollection
     private Set<Long> membersId = new HashSet<>();

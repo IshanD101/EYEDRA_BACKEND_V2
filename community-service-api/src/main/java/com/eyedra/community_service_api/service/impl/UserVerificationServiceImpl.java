@@ -1,6 +1,5 @@
 package com.eyedra.community_service_api.service.impl;
 
-import com.eyedra.community_service_api.configs.WebClientConfig;
 import com.eyedra.community_service_api.service.UserVerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
