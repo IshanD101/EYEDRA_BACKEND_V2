@@ -1,22 +1,30 @@
 package com.eyedra.post_service_api.config;
 
+import com.eyedra.post_service_api.handler.ReactiveWebSocketHandler;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.eyedra.post_service_api.services.WebSocketHandler;
+import org.springframework.web.reactive.HandlerMapping;
+import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
+import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
-@EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer {
+public class WebSocketConfig {
 
-    @Autowired
-    private WebSocketHandler webSocketHandler;
+    @Bean
+    public HandlerMapping webSocketHandlerMapping(ReactiveWebSocketHandler webSocketHandler) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("/ws/posts", webSocketHandler);
 
-    @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketHandler, "/ws/posts")
-               .setAllowedOrigins("*");
+        SimpleUrlHandlerMapping handlerMapping = new SimpleUrlHandlerMapping();
+        handlerMapping.setOrder(1);
+        handlerMapping.setUrlMap(map);
+        return handlerMapping;
+    }
+
+    @Bean
+    public WebSocketHandlerAdapter handlerAdapter() {
+        return new WebSocketHandlerAdapter();
     }
 }

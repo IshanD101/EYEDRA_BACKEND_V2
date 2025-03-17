@@ -13,6 +13,9 @@ import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -66,22 +69,43 @@ public class PostService {
     }
 
     public Flux<Post> searchPosts(PostSearchDTO searchDTO) {
+        Flux<Post> result = postRepository.findAll(); // Default query
+        
         if (searchDTO.getTitle() != null && !searchDTO.getTitle().isEmpty()) {
-            return postRepository.findByTitle(searchDTO.getTitle());
-        } else if (searchDTO.getTags() != null && !searchDTO.getTags().isEmpty()) {
-            return postRepository.findByTags(searchDTO.getTags());
-        } else if (searchDTO.getAuthor() != null && !searchDTO.getAuthor().isEmpty()) {
-            return postRepository.findByAuthor(searchDTO.getAuthor());
-        } else if (searchDTO.getStartDate() != null && searchDTO.getEndDate() != null) {
-            return postRepository.findByDateRange(searchDTO.getStartDate(), searchDTO.getEndDate());
+            result = result.filter(post -> post.getContent().toLowerCase().contains(searchDTO.getTitle().toLowerCase()));
         }
-        return postRepository.findAll();
+    
+        if (searchDTO.getAuthor() != null && !searchDTO.getAuthor().isEmpty()) {
+            result = result.filter(post -> post.getUserId().equalsIgnoreCase(searchDTO.getAuthor()));
+        }
+    
+        if (searchDTO.getStartDate() != null && searchDTO.getEndDate() != null) {
+            Date startDate = parseDate(searchDTO.getStartDate());
+            Date endDate = parseDate(searchDTO.getEndDate());
+            
+            if (startDate != null && endDate != null) {
+                result = result.filter(post -> 
+                    !post.getCreatedAt().before(startDate) && !post.getCreatedAt().after(endDate));
+            }
+        }
+    
+        return result;
+    }
+    
+    private Date parseDate(String dateStr) {
+        if (dateStr == null || dateStr.isEmpty()) {
+            return null;
+        }
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            return format.parse(dateStr);
+        } catch (ParseException e) {
+            log.error("Error parsing date: {}", e.getMessage());
+            return null;
+        }
     }
 
     private Mono<String> uploadImage(Mono<FilePart> filePart) {
-        if (filePart == null) {
-            return Mono.just("");
-        }
         return filePart
             .flatMap(file -> file.content()
                 .reduce(new byte[0], (acc, dataBuffer) -> {
@@ -91,17 +115,25 @@ public class PostService {
                     return bytes;
                 }))
             .flatMap(bytes -> Mono.fromCallable(() -> {
-                Map uploadResult = cloudinary.uploader().upload(bytes, ObjectUtils.emptyMap());
+                @SuppressWarnings("unchecked")
+                Map<String, Object> uploadResult = cloudinary.uploader().upload(bytes, ObjectUtils.emptyMap());
                 return (String) uploadResult.get("secure_url");
             }))
             .onErrorResume(e -> {
                 log.error("Image upload failed: {}", e.getMessage());
                 return Mono.just("");
-            });
+            })
+            .switchIfEmpty(Mono.just("")); // returns empty string if no image is provided
     }
 
     private PostResponseDTO convertToDto(Post post) {
-        return new PostResponseDTO(post.getId(), post.getUserId(),
-                post.getContent(), post.getImageUrl(), post.getCreatedAt());
+        // Create a new PostResponseDTO with the available fields
+        PostResponseDTO dto = new PostResponseDTO();
+        dto.setId(post.getId());
+        dto.setUserId(post.getUserId());
+        dto.setContent(post.getContent());
+        dto.setImageUrl(post.getImageUrl());
+        dto.setCreatedAt(post.getCreatedAt());
+        return dto;
     }
 }
