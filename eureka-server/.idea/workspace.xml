@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f7647137-18fb-4687-81c2-bef3cf61f747" name="Changes" comment="" />
+    <list default="true" id="f7647137-18fb-4687-81c2-bef3cf61f747" name="Changes" comment="">
+
+      <change beforePath="$PROJECT_DIR$/../post-service-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../post-service-api/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../post-service-api/src/main/java/com/eyedra/post_service_api/dto/PostRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../post-service-api/src/main/java/com/eyedra/post_service_api/dto/PostRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../post-service-api/src/main/java/com/eyedra/post_service_api/entity/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/../post-service-api/src/main/java/com/eyedra/post_service_api/entity/Post.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../post-service-api/src/main/java/com/eyedra/post_service_api/repository/PostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../post-service-api/src/main/java/com/eyedra/post_service_api/repository/PostRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../post-service-api/src/main/java/com/eyedra/post_service_api/services/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../post-service-api/src/main/java/com/eyedra/post_service_api/services/PostService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -48,9 +55,17 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+
+    "git-widget-placeholder": "post-service",
+    "Spring Boot.EurekaServerApplication.executor": "Run",
+    "git-widget-placeholder": "comment-service",
+
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -66,20 +81,21 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.189" />
-        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.189" />
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.24978.46" />
+        <option value="bundled-js-predefined-d6986cc7102b-76f8388c3a79-JavaScript-IU-243.24978.46" />
       </set>
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="17480c81-33a0-4736-aaff-f586517baa0f" name="Changes" comment="" />
+      <changelist id="f7647137-18fb-4687-81c2-bef3cf61f747" name="Changes" comment="" />
       <created>1741052964939</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1741052964939</updated>
       <workItem from="1741052966789" duration="115000" />
+      <workItem from="1741445784103" duration="45000" />
     </task>
     <servers />
   </component>
