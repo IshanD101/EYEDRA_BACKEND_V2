@@ -39,6 +39,11 @@ public class NotificationController {
         return notificationService.getNotificationById(id);
     }
 
+    @GetMapping("/broadcast")
+    public Flux<NotificationResponseDTO> getBroadcastNotifications() {
+        return notificationService.getBroadcastNotifications();
+    }
+
     @PutMapping("/{id}")
     public Mono<NotificationResponseDTO> updateNotification(
             @PathVariable String id,

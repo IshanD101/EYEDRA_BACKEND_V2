@@ -6,4 +6,6 @@ import reactor.core.publisher.Flux;
 
 public interface NotificationRepository extends ReactiveMongoRepository<Notification, String> {
     Flux<Notification> findByUserId(String userId);
+    Flux<Notification> findByBroadcastTrue();
+    Flux<Notification> findByUserIdOrBroadcastTrue(String userId);
 }

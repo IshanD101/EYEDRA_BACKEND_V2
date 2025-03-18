@@ -9,5 +9,6 @@ public class NotificationResponseDTO {
     private String userId;
     private String message;
     private boolean read;
+    private boolean broadcast;
     private LocalDateTime timestamp;
 }

@@ -10,8 +10,9 @@ import java.time.LocalDateTime;
 public class Notification {
     @Id
     private String id;
-    private String userId;
+    private String userId;  // null for broadcast notifications
     private String message;
     private boolean read;
+    private boolean broadcast; // new field
     private LocalDateTime timestamp = LocalDateTime.now();
 }

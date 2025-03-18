@@ -22,6 +22,7 @@ public class NotificationService {
         Notification notification = new Notification();
         notification.setUserId(requestDTO.getUserId());
         notification.setMessage(requestDTO.getMessage());
+        notification.setBroadcast(requestDTO.isBroadcast());
         notification.setRead(false);
 
         return notificationRepository.save(notification)
@@ -34,7 +35,12 @@ public class NotificationService {
     }
 
     public Flux<NotificationResponseDTO> getNotificationsByUserId(String userId) {
-        return notificationRepository.findByUserId(userId)
+        return notificationRepository.findByUserIdOrBroadcastTrue(userId)
+                .map(this::mapToResponseDTO);
+    }
+
+    public Flux<NotificationResponseDTO> getBroadcastNotifications() {
+        return notificationRepository.findByBroadcastTrue()
                 .map(this::mapToResponseDTO);
     }
 
