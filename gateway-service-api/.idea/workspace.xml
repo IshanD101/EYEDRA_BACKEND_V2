@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33ce2ecd-c942-4088-8dbf-d456a4e52646" name="Changes" comment="Starter gateway dependency added" />
+    <list default="true" id="33ce2ecd-c942-4088-8dbf-d456a4e52646" name="Changes" comment="Starter gateway dependency added">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/eyedra/gateway_service_api/GatewayServiceApiApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/eyedra/gateway_service_api/GatewayServiceApiApplication.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
