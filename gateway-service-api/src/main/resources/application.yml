@@ -58,3 +58,5 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
 
+jwt:
+  jwtSecret: ${JWT_SECRET:ThisIsA32ByteLongSecretKeyForJWT!!}

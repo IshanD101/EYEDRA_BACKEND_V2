@@ -4,11 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33ce2ecd-c942-4088-8dbf-d456a4e52646" name="Changes" comment="Eureka client enabled" />
+    <list default="true" id="33ce2ecd-c942-4088-8dbf-d456a4e52646" name="Changes" comment="routes created without adding authentication filter">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eyedra/gateway_service_api/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eyedra/gateway_service_api/config/WebClientConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -92,7 +104,7 @@
       <workItem from="1741056126278" duration="57000" />
       <workItem from="1741057401924" duration="52000" />
       <workItem from="1741057800992" duration="728000" />
-      <workItem from="1742372844219" duration="1489000" />
+      <workItem from="1742372844219" duration="6075000" />
     </task>
     <task id="LOCAL-00001" summary="Starter gateway dependency added">
       <option name="closed" value="true" />
@@ -118,7 +130,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742374047232</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="routes created without adding authentication filter">
+      <option name="closed" value="true" />
+      <created>1742374726529</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1742374726529</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -140,6 +160,7 @@
     <MESSAGE value="Starter gateway dependency added" />
     <MESSAGE value="application.yml file created and new dependencies added" />
     <MESSAGE value="Eureka client enabled" />
-    <option name="LAST_COMMIT_MESSAGE" value="Eureka client enabled" />
+    <MESSAGE value="routes created without adding authentication filter" />
+    <option name="LAST_COMMIT_MESSAGE" value="routes created without adding authentication filter" />
   </component>
 </project>
