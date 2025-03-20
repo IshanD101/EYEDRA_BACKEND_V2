@@ -4,16 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33ce2ecd-c942-4088-8dbf-d456a4e52646" name="Changes" comment="Starter gateway dependency added" />
+    <list default="true" id="33ce2ecd-c942-4088-8dbf-d456a4e52646" name="Changes" comment="Jwt Util file done">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="group-service" />
+        <entry key="$PROJECT_DIR$/.." value="development" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -92,6 +101,7 @@
       <workItem from="1741056126278" duration="57000" />
       <workItem from="1741057401924" duration="52000" />
       <workItem from="1741057800992" duration="728000" />
+      <workItem from="1742372844219" duration="8797000" />
     </task>
     <task id="LOCAL-00001" summary="Starter gateway dependency added">
       <option name="closed" value="true" />
@@ -101,7 +111,47 @@
       <option name="project" value="LOCAL" />
       <updated>1741053313159</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="application.yml file created and new dependencies added">
+      <option name="closed" value="true" />
+      <created>1742373215171</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1742373215171</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Eureka client enabled">
+      <option name="closed" value="true" />
+      <created>1742374047232</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1742374047232</updated>
+    </task>
+    <task id="LOCAL-00004" summary="routes created without adding authentication filter">
+      <option name="closed" value="true" />
+      <created>1742374726529</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1742374726529</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Configurations and routes done">
+      <option name="closed" value="true" />
+      <created>1742384525507</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1742384525507</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Jwt Util file done">
+      <option name="closed" value="true" />
+      <created>1742386267855</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1742386267855</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -121,6 +171,11 @@
   <component name="VcsManagerConfiguration">
     <option name="RELOAD_CONTEXT" value="false" />
     <MESSAGE value="Starter gateway dependency added" />
-    <option name="LAST_COMMIT_MESSAGE" value="Starter gateway dependency added" />
+    <MESSAGE value="application.yml file created and new dependencies added" />
+    <MESSAGE value="Eureka client enabled" />
+    <MESSAGE value="routes created without adding authentication filter" />
+    <MESSAGE value="Configurations and routes done" />
+    <MESSAGE value="Jwt Util file done" />
+    <option name="LAST_COMMIT_MESSAGE" value="Jwt Util file done" />
   </component>
 </project>
