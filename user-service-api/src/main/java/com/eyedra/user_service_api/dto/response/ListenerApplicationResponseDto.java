@@ -5,15 +5,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ListenerApplicationResponseDto {
-    private Long applicationId;
+    private Long id;
     private String username;
     private String description;
     private String certificationImageUrl;
-    private String status; // PENDING, APPROVED, REJECTED
+    private String status;
     private String reviewComment;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
