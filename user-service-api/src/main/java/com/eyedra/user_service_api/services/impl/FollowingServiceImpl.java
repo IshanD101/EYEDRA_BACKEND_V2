@@ -2,7 +2,7 @@ package com.eyedra.user_service_api.services.impl;
 
 import com.eyedra.user_service_api.dto.response.UserSummaryResponseDto;
 import com.eyedra.user_service_api.entity.User;
-import com.eyedra.user_service_api.exception.ResourceNotFoundException;
+import com.eyedra.user_service_api.exception.*;
 import com.eyedra.user_service_api.repository.UserRepository;
 import com.eyedra.user_service_api.services.FollowingService;
 import com.eyedra.user_service_api.util.UserSummaryMapper;

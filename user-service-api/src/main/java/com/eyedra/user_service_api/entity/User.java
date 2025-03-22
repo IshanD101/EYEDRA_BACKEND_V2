@@ -53,10 +53,12 @@ public class User implements UserDetails {
 
     public void follow(User userToFollow) {
         following.add(userToFollow);
+        userToFollow.getFollowers().add(this); // Maintain bidirectional relationship
     }
 
     public void unfollow(User userToUnfollow) {
         following.remove(userToUnfollow);
+        userToUnfollow.getFollowers().remove(this); // Maintain bidirectional relationship
     }
 
     @Override
