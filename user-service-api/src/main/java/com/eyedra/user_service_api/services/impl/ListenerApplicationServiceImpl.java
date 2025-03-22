@@ -5,6 +5,7 @@ import com.eyedra.user_service_api.dto.request.ListenerApplicationReviewReqDto;
 import com.eyedra.user_service_api.dto.response.ListenerApplicationResponseDto;
 import com.eyedra.user_service_api.entity.ListenerApplication;
 import com.eyedra.user_service_api.entity.User;
+import com.eyedra.user_service_api.exception.UserNotFoundException;
 import com.eyedra.user_service_api.repository.ListenerApplicationRepository;
 import com.eyedra.user_service_api.repository.UserRepository;
 import com.eyedra.user_service_api.services.CloudinaryService;
@@ -45,7 +46,7 @@ public class ListenerApplicationServiceImpl implements ListenerApplicationServic
     @Override
     public ListenerApplicationResponseDto submitApplication(ListenerApplicationReqDto request) throws IOException {
         User user = userRepository.findByUsername(request.getFullName())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         // Check if user already has an application
         if (applicationRepository.findByUser(user).isPresent()) {
@@ -108,7 +109,7 @@ public class ListenerApplicationServiceImpl implements ListenerApplicationServic
     @Override
     public ListenerApplicationResponseDto getApplicationStatus(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         ListenerApplication application = applicationRepository.findByUser(user)
                 .orElseThrow(() -> new RuntimeException("No application found for this user"));
