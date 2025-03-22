@@ -2,6 +2,7 @@ package com.eyedra.user_service_api.services.impl;
 
 import com.eyedra.user_service_api.dto.response.UserListResponseDto;
 import com.eyedra.user_service_api.entity.User;
+import com.eyedra.user_service_api.exception.UserNotFoundException;
 import com.eyedra.user_service_api.repository.UserRepository;
 import com.eyedra.user_service_api.services.AdminService;
 import com.eyedra.user_service_api.util.Role;
@@ -38,7 +39,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void updateUserRole(Long userId, Role role) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
 
         user.setRole(role);
         userRepository.save(user);
@@ -47,7 +48,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void deleteUser(Long userId) {
         if (!userRepository.existsById(userId)) {
-            throw new RuntimeException("User not found with ID: " + userId);
+            throw new UserNotFoundException("User not found with ID: " + userId);
         }
         userRepository.deleteById(userId);
     }
