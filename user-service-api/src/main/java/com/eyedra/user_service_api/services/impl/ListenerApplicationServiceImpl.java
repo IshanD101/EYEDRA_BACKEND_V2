@@ -38,6 +38,7 @@ public class ListenerApplicationServiceImpl implements ListenerApplicationServic
     @Autowired
     private CloudinaryService cloudinaryService;
 
+    @Autowired
     private ListenerApplicationMapper mapper;
 
     @Value("${application.upload.dir}")
