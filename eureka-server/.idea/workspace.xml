@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7647137-18fb-4687-81c2-bef3cf61f747" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../comment-service-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../comment-service-api/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../comment-service-api/src/main/java/com/eyedra/comment_service_api/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../comment-service-api/src/main/java/com/eyedra/comment_service_api/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/eyedra/eureka_server/EurekaServerApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user-service-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service-api/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user-service-api/src/main/java/com/eyedra/user_service_api/UserServiceApiApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../user-service-api/src/main/java/com/eyedra/user_service_api/UserServiceApiApplication.java" afterDir="false" />
     </list>
+    <list default="true" id="f7647137-18fb-4687-81c2-bef3cf61f747" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,9 +54,13 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "Spring Boot.EurekaServerApplication.executor": "Run",
-    "git-widget-placeholder": "comment-service",
+    "git-widget-placeholder": "api-gateway-/-eureka-server",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
