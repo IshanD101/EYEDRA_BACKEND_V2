@@ -1,6 +1,6 @@
 package com.eyedra.community_service_api.entity;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,13 +19,12 @@ import java.util.Set;
 public class CommunitySpace {
 
     @Id
-    private Long communityId;
+    private String id;
 
+    private Long communityId;
     private String title;
     private String description;
-    private String creatorId;
-
-    @ElementCollection
+    private Long creatorId;
     private Set<Long> membersId = new HashSet<>();
     private LocalDateTime creationDate;
     private boolean isActive = true;

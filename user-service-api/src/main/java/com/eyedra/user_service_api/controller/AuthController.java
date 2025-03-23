@@ -1,7 +1,8 @@
 package com.eyedra.user_service_api.controller;
 
 
-import com.eyedra.user_service_api.dto.request.AuthReqDto;
+import com.eyedra.user_service_api.dto.request.LoginReqDto;
+import com.eyedra.user_service_api.dto.request.RegisterReqDto;
 import com.eyedra.user_service_api.dto.response.AuthResponseDto;
 
 import com.eyedra.user_service_api.services.AuthService;
@@ -23,14 +24,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDto> login(@RequestBody AuthReqDto authReq) {
-        AuthResponseDto response = authService.login(authReq);
+    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginReqDto loginReqDto) {
+        AuthResponseDto response = authService.login(loginReqDto);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponseDto> register(@RequestBody AuthReqDto authReq) {
-        AuthResponseDto responseDto = authService.registerUser(authReq);
-        return ResponseEntity.ok(responseDto);
+    public String register(@RequestBody RegisterReqDto authReq) {
+        authService.registerUser(authReq);
+        return "User Registered Successfully....!!!";
     }
 }

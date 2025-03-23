@@ -1,8 +1,11 @@
 package com.eyedra.user_service_api.services;
 
-import com.eyedra.user_service_api.dto.request.AuthReqDto;
+import com.eyedra.user_service_api.dto.request.LoginReqDto;
+import com.eyedra.user_service_api.dto.request.RegisterReqDto;
 import com.eyedra.user_service_api.dto.response.AuthResponseDto;
 import com.eyedra.user_service_api.entity.User;
+import com.eyedra.user_service_api.exception.UserNotFoundException;
+import com.eyedra.user_service_api.exception.UsernameAlreadyExistsException;
 import com.eyedra.user_service_api.jwt.JwtUtils;
 import com.eyedra.user_service_api.repository.UserRepository;
 import com.eyedra.user_service_api.util.Role;
@@ -26,7 +29,7 @@ public class AuthService {
     private UserRepository userRepository;
 
     public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+        return userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     public void upgradeToListener(String username) {
@@ -35,12 +38,11 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public AuthResponseDto registerUser(AuthReqDto request) {
+    public void registerUser(RegisterReqDto request) {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists");
+            throw new UsernameAlreadyExistsException("Username already exists");
         }
 
-        // Create and save user user
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -51,21 +53,16 @@ public class AuthService {
         user.setRole(Role.ROLE_USER);
 
         userRepository.save(user);
-
-        // Generate JWT token with role information
-        String token = jwtUtils.generateToken(user.getUsername(), user.getRole());
-
-        // Return token in response
-        return new AuthResponseDto(token);
     }
 
-    public AuthResponseDto login(AuthReqDto request) {
+
+    public AuthResponseDto login(LoginReqDto request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
 
         User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         // Generate JWT token with role information
         String token = jwtUtils.generateToken(user.getUsername(), user.getRole());

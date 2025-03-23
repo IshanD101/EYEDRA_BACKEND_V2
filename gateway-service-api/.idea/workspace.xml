@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="33ce2ecd-c942-4088-8dbf-d456a4e52646" name="Changes" comment="Authentication filter created">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="development" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;IshanD101&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/IshanD101/EYEDRA_BACKEND_V2.git&quot;,
+    &quot;accountId&quot;: &quot;524b1c94-0c7b-4db6-b79c-0002d3885e7f&quot;
+  }
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2tpdlmhLe5eLAFcxNNv8YlUM2wf" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.GatewayServiceApiApplication.executor": "Run",
+    "git-widget-placeholder": "api-gateway-/-eureka-server",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="GatewayServiceApiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="gateway-service-api" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.eyedra.gateway_service_api.GatewayServiceApiApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.189" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.189" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="33ce2ecd-c942-4088-8dbf-d456a4e52646" name="Changes" comment="" />
+      <created>1741053103842</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1741053103842</updated>
+      <workItem from="1741053106770" duration="373000" />
+      <workItem from="1741055287993" duration="225000" />
+      <workItem from="1741055531753" duration="150000" />
+      <workItem from="1741055768769" duration="344000" />
+      <workItem from="1741056126278" duration="57000" />
+      <workItem from="1741057401924" duration="52000" />
+      <workItem from="1741057800992" duration="728000" />
+      <workItem from="1742372844219" duration="8797000" />
+      <workItem from="1742437269838" duration="2192000" />
+    </task>
+    <task id="LOCAL-00001" summary="Starter gateway dependency added">
+      <option name="closed" value="true" />
+      <created>1741053313159</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1741053313159</updated>
+    </task>
+    <task id="LOCAL-00002" summary="application.yml file created and new dependencies added">
+      <option name="closed" value="true" />
+      <created>1742373215171</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1742373215171</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Eureka client enabled">
+      <option name="closed" value="true" />
+      <created>1742374047232</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1742374047232</updated>
+    </task>
+    <task id="LOCAL-00004" summary="routes created without adding authentication filter">
+      <option name="closed" value="true" />
+      <created>1742374726529</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1742374726529</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Configurations and routes done">
+      <option name="closed" value="true" />
+      <created>1742384525507</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1742384525507</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Jwt Util file done">
+      <option name="closed" value="true" />
+      <created>1742386267855</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1742386267855</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Authentication filter created">
+      <option name="closed" value="true" />
+      <created>1742437787909</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1742437787909</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="RELOAD_CONTEXT" value="false" />
+    <MESSAGE value="Starter gateway dependency added" />
+    <MESSAGE value="application.yml file created and new dependencies added" />
+    <MESSAGE value="Eureka client enabled" />
+    <MESSAGE value="routes created without adding authentication filter" />
+    <MESSAGE value="Configurations and routes done" />
+    <MESSAGE value="Jwt Util file done" />
+    <MESSAGE value="Authentication filter created" />
+    <option name="LAST_COMMIT_MESSAGE" value="Authentication filter created" />
+  </component>
+</project>
