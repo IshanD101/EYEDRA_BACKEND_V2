@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -38,6 +39,27 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;  // Store a single role as a column in the User table
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_following",
+            joinColumns = @JoinColumn(name = "follower_id"),
+            inverseJoinColumns = @JoinColumn(name = "following_id")
+    )
+    private Set<User> following = new HashSet<>();
+
+    @ManyToMany(mappedBy = "following")
+    private Set<User> followers = new HashSet<>();
+
+    public void follow(User userToFollow) {
+        following.add(userToFollow);
+        userToFollow.getFollowers().add(this); // Maintain bidirectional relationship
+    }
+
+    public void unfollow(User userToUnfollow) {
+        following.remove(userToUnfollow);
+        userToUnfollow.getFollowers().remove(this); // Maintain bidirectional relationship
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
