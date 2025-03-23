@@ -12,6 +12,8 @@ import java.util.Set;
 @Repository
 public interface CommunitySpaceRepository extends MongoRepository<CommunitySpace, String> {
 
+    Set<CommunitySpace> findByCommunityId(Long communityId);
+
     Set<CommunitySpace> findByMembersId(Long membersId);
 
     List<CommunitySpace> findByCreatorId(String creatorId);
