@@ -4,6 +4,8 @@ import com.eyedra.user_service_api.dto.request.LoginReqDto;
 import com.eyedra.user_service_api.dto.request.RegisterReqDto;
 import com.eyedra.user_service_api.dto.response.AuthResponseDto;
 import com.eyedra.user_service_api.entity.User;
+import com.eyedra.user_service_api.exception.UserNotFoundException;
+import com.eyedra.user_service_api.exception.UsernameAlreadyExistsException;
 import com.eyedra.user_service_api.jwt.JwtUtils;
 import com.eyedra.user_service_api.repository.UserRepository;
 import com.eyedra.user_service_api.util.Role;
@@ -27,7 +29,7 @@ public class AuthService {
     private UserRepository userRepository;
 
     public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+        return userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     public void upgradeToListener(String username) {
@@ -38,7 +40,7 @@ public class AuthService {
 
     public void registerUser(RegisterReqDto request) {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists");
+            throw new UsernameAlreadyExistsException("Username already exists");
         }
 
         User user = new User();
@@ -60,7 +62,7 @@ public class AuthService {
         );
 
         User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         // Generate JWT token with role information
         String token = jwtUtils.generateToken(user.getUsername(), user.getRole());
