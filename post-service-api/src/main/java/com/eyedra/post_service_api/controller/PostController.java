@@ -47,6 +47,11 @@ public class PostController {
         return postService.searchPosts(keyword);
     }
 
+    @GetMapping
+    public Flux<Post> getAllPosts() {
+        return postService.getAllPosts();
+    }
+
     @PutMapping("/{id}")
     public Mono<Post> updatePost(@PathVariable String id, @RequestBody Post post) {
         return postService.updatePost(id, post);

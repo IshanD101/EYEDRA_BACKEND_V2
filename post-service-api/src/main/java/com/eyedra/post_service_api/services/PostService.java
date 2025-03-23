@@ -62,4 +62,7 @@ public class PostService {
                     return postRepository.save(existingPost);
                 });
     }
+    public Flux<Post> getAllPosts() {
+        return postRepository.findAll();
+    }
 }
