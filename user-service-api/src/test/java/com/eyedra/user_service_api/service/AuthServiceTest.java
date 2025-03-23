@@ -72,7 +72,7 @@ public class AuthServiceTest {
 
     @Test
     void testRegisterUser_Success() {
-        RegisterReqDto registerReq = new RegisterReqDto("testuser", "password", "test@example.com", "John", "Doe", "1234567890");
+        RegisterReqDto registerReq = new RegisterReqDto("testuser", "password", "test@example.com", "Super", "Man", "1234567890");
 
         when(userRepository.findByUsername("testuser")).thenReturn(Optional.empty());
         when(passwordEncoder.encode("password")).thenReturn("encodedPassword");

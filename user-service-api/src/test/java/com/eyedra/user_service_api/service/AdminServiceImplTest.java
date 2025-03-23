@@ -33,13 +33,13 @@ public class AdminServiceImplTest {
     void testGetAllUsers() {
         User user = new User();
         user.setUserId(1L);
-        user.setUsername("john_doe");
+        user.setUsername("bat_man");
         when(userRepository.findAll()).thenReturn(List.of(user));
-        when(userMapper.mapToUserListDto(user)).thenReturn(new UserListResponseDto(1L, "john_doe", "john@example.com", "John", "Doe", "1234567890", Role.ROLE_USER));
+        when(userMapper.mapToUserListDto(user)).thenReturn(new UserListResponseDto(1L, "bat_man", "batman@example.com", "Bat", "Man", "1234567890", Role.ROLE_USER));
 
         List<UserListResponseDto> users = adminService.getAllUsers();
         assertEquals(1, users.size());
-        assertEquals("john_doe", users.get(0).getUsername());
+        assertEquals("bat_man", users.get(0).getUsername());
     }
 
     @Test

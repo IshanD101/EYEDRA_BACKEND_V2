@@ -49,13 +49,13 @@ public class AuthControllerTest {
     void testRegister_Success() throws Exception {
         mockMvc = MockMvcBuilders.standaloneSetup(authController).build();
 
-        RegisterReqDto registerReq = new RegisterReqDto("testuser", "password", "test@example.com", "John", "Doe", "1234567890");
+        RegisterReqDto registerReq = new RegisterReqDto("testuser", "password", "test@example.com", "Super", "Man", "1234567890");
 
         doNothing().when(authService).registerUser(any(RegisterReqDto.class));
 
         mockMvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\":\"testuser\",\"password\":\"password\",\"email\":\"test@example.com\",\"firstName\":\"John\",\"lastName\":\"Doe\",\"mobileNumber\":\"1234567890\"}"))
+                        .content("{\"username\":\"testuser\",\"password\":\"password\",\"email\":\"test@example.com\",\"firstName\":\"Super\",\"lastName\":\"Man\",\"mobileNumber\":\"1234567890\"}"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("User Registered Successfully....!!!"));
 

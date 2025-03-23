@@ -45,8 +45,8 @@ public class UserControllerTest {
     void testGetUser_Success() throws Exception {
         User user = new User();
         user.setUsername("testuser");
-        user.setFirstName("John");
-        user.setLastName("Doe");
+        user.setFirstName("Super");
+        user.setLastName("Man");
 
         when(authService.getUserByUsername("testuser")).thenReturn(user);
 
@@ -54,8 +54,8 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username").value("testuser"))
-                .andExpect(jsonPath("$.firstName").value("John"))
-                .andExpect(jsonPath("$.lastName").value("Doe"));
+                .andExpect(jsonPath("$.firstName").value("Super"))
+                .andExpect(jsonPath("$.lastName").value("Man"));
 
         verify(authService, times(1)).getUserByUsername("testuser");
     }
@@ -75,7 +75,7 @@ public class UserControllerTest {
     @Test
     void testUpdateUser_Success() throws Exception {
         ProfileUpdateReqDto updateReqDto = new ProfileUpdateReqDto();
-        updateReqDto.setUsername("John");
+        updateReqDto.setUsername("superman");
         updateReqDto.setDescription("Updated profile description");
         updateReqDto.setImageUrl("http://example.com/image.jpg");
 
