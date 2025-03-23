@@ -14,4 +14,5 @@ public class Post {
     private String content;
     private String imageUrl;
     private Date createdAt;
+    private String title; // Add this field
 }
