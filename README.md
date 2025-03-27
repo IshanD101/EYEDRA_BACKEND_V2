@@ -19,7 +19,7 @@ This repository contains the backend services for the EYEDRA mental wellbeing so
 - **Backend Framework**: Spring Boot  
 - **Architecture**: Microservices  
 - **Service Discovery**: Eureka Server  
-- **API Gateway**: Spring Cloud Gateway / Zuul  
+- **API Gateway**: Spring Cloud Gateway
 - **Authentication**: JWT Token-based  
 - **Database**: MySQL, MongoDB  
 - **Communication Protocols**: REST, WebSockets, Socket.io  
