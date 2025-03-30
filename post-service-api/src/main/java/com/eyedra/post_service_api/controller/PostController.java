@@ -1,41 +1,40 @@
 package com.eyedra.post_service_api.controller;
 
 import com.eyedra.post_service_api.entity.Post;
-import com.eyedra.post_service_api.dto.PostRequestDTO;
-import com.eyedra.post_service_api.dto.PostResponseDTO;
 import com.eyedra.post_service_api.services.PostService;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
+// import java.io.IOException;
+// import java.util.Date;
+// import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/posts")
 public class PostController {
 
-    private final PostService postService;
+    @Autowired
+    private PostService postService;
 
-    public PostController(PostService postService) {
-        this.postService = postService;
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<Post> createPostFromJson(@RequestBody Post post) {
+        return postService.createPost(post, null); // Pass null for the image
     }
 
-    @PostMapping
-    public Mono<ResponseEntity<PostResponseDTO>> createPost(@Valid @ModelAttribute PostRequestDTO postRequestDTO,
-                                                            @RequestParam(value = "image", required = false) MultipartFile imageFile) {
-
-        return postService.createPost(postRequestDTO, imageFile)
-                .map(post -> ResponseEntity.status(HttpStatus.CREATED).body(post));
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Mono<Post> createPostFromMultipart(
+            @RequestPart("post") Post post,
+            @RequestPart(value = "image", required = false) MultipartFile image) {
+        return postService.createPost(post, image);
     }
 
-    @GetMapping
-    public Flux<Post> getAllPosts() {
-        return postService.getAllPosts();
+    @GetMapping("/{id}")
+    public Mono<Post> getPostById(@PathVariable String id) {
+        return postService.getPostById(id);
     }
 
     @GetMapping("/user/{userId}")
@@ -43,26 +42,18 @@ public class PostController {
         return postService.getPostsByUserId(userId);
     }
 
-    @GetMapping("/{id}")
-    public Mono<ResponseEntity<Post>> getPostById(@PathVariable String id) {
-        return postService.getPostById(id)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+    @GetMapping("/search")
+    public Flux<Post> searchPosts(@RequestParam String keyword) {
+        return postService.searchPosts(keyword);
     }
 
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<PostResponseDTO>> updatePost(@PathVariable String id,
-                                                            @Valid @ModelAttribute PostRequestDTO postRequestDTO,
-                                                            @RequestParam(value = "image", required = false) MultipartFile imageFile) {
-
-        return postService.updatePost(id, postRequestDTO, imageFile)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+    public Mono<Post> updatePost(@PathVariable String id, @RequestBody Post post) {
+        return postService.updatePost(id, post);
     }
 
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deletePost(@PathVariable String id) {
-        return postService.deletePost(id)
-                .then(Mono.just(ResponseEntity.noContent().<Void>build()));
+    public Mono<Void> deletePost(@PathVariable String id) {
+        return postService.deletePost(id);
     }
 }
