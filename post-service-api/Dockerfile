@@ -1,14 +1,14 @@
-# Use OpenJDK 17 as base image
-FROM openjdk:17-jdk-slim
+# Use OpenJDK 17 as the base image
+FROM eclipse-temurin:17-jdk-alpine
 
-# Set working directory inside the container
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the JAR file from the target folder (make sure your project builds first)
-COPY target/post-service-api-0.0.1-SNAPSHOT.jar app.jar
+# Copy the JAR file from the target directory (after Maven build)
+COPY target/post-service-api-*.jar app.jar
 
-# Expose the port the app runs on
-EXPOSE 8080
+# Expose the application port (match your `server.port=8081`)
+EXPOSE 8081
 
-# Run the JAR file
+# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
