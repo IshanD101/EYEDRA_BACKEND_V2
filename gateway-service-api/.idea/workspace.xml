@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33ce2ecd-c942-4088-8dbf-d456a4e52646" name="Changes" comment="Authentication filter created">
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../eureka-server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../eureka-server/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../eureka-server/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../eureka-server/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../eureka-server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../eureka-server/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../post-service-api/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../post-service-api/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +117,7 @@
       <workItem from="1742726154706" duration="363000" />
       <workItem from="1743051668972" duration="3333000" />
       <workItem from="1743059275360" duration="262000" />
-      <workItem from="1743363980805" duration="1986000" />
+      <workItem from="1743363980805" duration="2375000" />
     </task>
     <task id="LOCAL-00001" summary="Starter gateway dependency added">
       <option name="closed" value="true" />

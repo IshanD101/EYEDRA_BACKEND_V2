@@ -7,8 +7,7 @@ WORKDIR /app
 # Copy the built jar file from the target folder
 COPY target/eureka-server-0.0.1-SNAPSHOT.jar eureka-server.jar
 
-# Expose the Eureka server port
-EXPOSE 8761
+EXPOSE 8080
 
-# Run the Eureka Server
-ENTRYPOINT ["java", "-jar", "/app/eureka-server.jar"]
+CMD ["java", "-jar", "eureka-server.jar", "--server.port=8080"]
+
